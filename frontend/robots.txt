@@ -3,4 +3,4 @@ Allow: /
 
 # Sitemap declaration. Replace https://example.com with the production domain
 # at deploy time (or leave the relative reference; both are accepted).
-Sitemap: /sitemap.xml
+Sitemap: https://trakkr.nyc/sitemap.xml
