@@ -125,7 +125,7 @@
         <h3>Information collected automatically</h3>
         <ul>
           <li><strong>Server logs:</strong> Like most websites, our backend records standard request metadata (IP address, request timestamp, user-agent string) for short periods, primarily to detect abuse and stabilize the service. These logs are not used to build user profiles.</li>
-          <li><strong>No analytics SDKs:</strong> We do not currently embed Google Analytics, Meta Pixel, or comparable tracking scripts. If we add lightweight, privacy-respecting analytics in the future, we will update this policy.</li>
+          <li><strong>Privacy-respecting analytics:</strong> We use <strong>Vercel Web Analytics</strong> and <strong>Vercel Speed Insights</strong> to count page views, aggregate device and country data, and measure page-load performance. Both are <strong>cookieless</strong> — they do not set cross-site cookies, do not build a user profile, and do not share data with advertisers. We do not embed Google Analytics, Meta Pixel, or any other ad-tech tracking scripts.</li>
         </ul>
 
         <h2>3. How we use information</h2>
@@ -140,6 +140,7 @@
         <h2>4. Third-party services</h2>
         <p>Trakkr relies on a small number of third-party services to function. Each has its own privacy policy, which governs the data they handle on our behalf:</p>
         <ul>
+          <li><strong>Vercel</strong> — hosts the Trakkr website. Vercel collects standard request metadata (IP, user-agent, country) for delivery and abuse prevention. We also enable Vercel Web Analytics and Speed Insights, both of which are cookieless and aggregate-only.</li>
           <li><strong>Mapbox</strong> — converts the addresses you type into map coordinates and serves the base map tiles displayed on the dashboard.</li>
           <li><strong>MTA Open Data &amp; NYPD Open Data</strong> — public datasets that power our predictions. We do not send any user-identifying information to these sources.</li>
           <li><strong>Web3Forms</strong> — relays feedback form submissions to our inbox. Your name, email (if provided), and message are processed by Web3Forms in transit.</li>
@@ -223,5 +224,8 @@
   Feedback
 </a>
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="denniscomandante" data-description="Support me on Buy me a coffee!" data-message="If my work's saved you time, a coffee keeps it going ☕" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+<!-- vercel-analytics-injected -->
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
