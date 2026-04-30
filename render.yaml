@@ -8,7 +8,7 @@ services:
   - type: web
     name: trakkr-api
     runtime: python
-    plan: starter   # bump to standard once traffic justifies it
+    plan: free   # bump to starter ($7/mo) when cold starts become a UX issue
     region: ohio    # closest Render region to NYC users; adjust if needed
     rootDir: .
     # Use the slim API-only requirements file. The full ML stack (xgboost,
