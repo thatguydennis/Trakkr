@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<title>Accessibility — Trakkr</title>
+<meta name="description" content="Trakkr is built for every NYC rider. Our commitment to WCAG 2.1 AA, what we ship today, what we know we still need to fix."/>
+<meta name="theme-color" content="#0039A6"/>
+<link rel="canonical" href="accessibility.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Trakkr"/>
+<meta property="og:title" content="Accessibility Statement — Trakkr"/>
+<meta property="og:description" content="Trakkr is built for every NYC rider. Our commitment to WCAG 2.1 AA, what we ship today, what we know we still need to fix."/>
+<meta property="og:url" content="accessibility.html"/>
+<meta property="og:image" content="favicon.svg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Accessibility Statement — Trakkr"/>
+<meta name="twitter:description" content="Trakkr is built for every NYC rider. Our commitment to WCAG 2.1 AA, what we ship today, what we know we still need to fix."/>
+<meta name="twitter:image" content="favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  html { scroll-behavior: smooth; }
+  .prose-policy h2 { font-weight: 800; color: #002675; margin-top: 2.5rem; margin-bottom: 0.75rem; font-size: 1.25rem; }
+  .prose-policy h3 { font-weight: 700; color: #002675; margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; }
+  .prose-policy p, .prose-policy li { color: #434653; line-height: 1.7; font-size: 0.9375rem; }
+  .prose-policy ul { padding-left: 1.5rem; margin: 0.75rem 0; }
+  .prose-policy li { margin-bottom: 0.4rem; list-style: disc; }
+  .prose-policy strong { color: #191c1d; font-weight: 700; }
+</style>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: { "primary": "#002675", "on-surface-variant": "#434653" },
+      fontFamily: { "body-rt": ["Inter"], "label-caps": ["Space Grotesk"] }
+    }}
+  }
+</script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-body-rt overflow-x-hidden">
+
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 shrink-0">Trakkr</a>
+    <nav class="hidden md:flex items-center gap-1">
+      <a href="trakkrecord.html" class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">TrakkRecord™</a>
+      <a href="blog.html"        class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Blogs</a>
+      <a href="about.html"       class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Our Story</a>
+      <a href="faq.html"         class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">FAQ</a>
+    </nav>
+    <button type="button" id="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false"
+      class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
+      <span class="material-symbols-outlined" id="mobile-nav-icon">menu</span>
+    </button>
+    <a href="index.html#hero-search" class="bg-gradient-to-r from-[#0039A6] to-orange-500 text-white px-5 py-2 rounded-xl font-bold text-sm active:scale-95 transition-transform">Check a Station</a>
+  </div>
+</header>
+<!-- mobile-nav-injected -->
+<div id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full z-40 bg-white border-b border-slate-200 shadow-lg transform -translate-y-full opacity-0 invisible transition-[transform,opacity,visibility] duration-200">
+  <nav class="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-1">
+    <a href="trakkrecord.html" class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">TrakkRecord™</a>
+    <a href="blog.html"        class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Blogs</a>
+    <a href="about.html"       class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Our Story</a>
+    <a href="faq.html"         class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">FAQ</a>
+  </nav>
+</div>
+<style>
+  #mobile-nav.is-open { transform: translateY(0); opacity: 1; visibility: visible; }
+</style>
+<script>
+(function(){
+  const btn = document.getElementById('mobile-nav-toggle');
+  const drawer = document.getElementById('mobile-nav');
+  const icon = document.getElementById('mobile-nav-icon');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
+  });
+  // Close when a nav link is tapped
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    drawer.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    if (icon) icon.textContent = 'menu';
+  }));
+})();
+</script>
+
+<main class="pt-16">
+
+  <section class="bg-[#001a5c] py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/20 text-orange-300 rounded-full mb-5 border border-orange-400/20 text-xs font-bold uppercase tracking-widest">
+        <span class="material-symbols-outlined text-sm">accessible</span> Accessibility
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-[40px] font-black text-white leading-tight mb-3">Accessibility Statement</h1>
+      <p class="text-blue-200 text-base">Last reviewed: April 30, 2026</p>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <article class="prose-policy bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-12">
+
+        <p class="text-base"><strong>Our commitment:</strong> Trakkr is built for everyone who rides New York City transit — including riders who use screen readers, keyboards, magnification, voice control, or who depend on accessible station equipment to navigate the system. Accessibility is a core part of why we built this tool, not an afterthought.</p>
+
+        <h2>1. Standards we follow</h2>
+        <p>Trakkr aims to conform to the <strong>Web Content Accessibility Guidelines (WCAG) 2.1, Level AA</strong>, the standard recognized under Section 508 of the U.S. Rehabilitation Act and referenced by the Americans with Disabilities Act (ADA). We continuously test against these criteria as the site evolves.</p>
+
+        <h2>2. What we've built in</h2>
+
+        <h3>Keyboard navigation</h3>
+        <ul>
+          <li>All interactive elements — search, navigation, the Feedback button, blog cards, and the dashboard — are reachable and operable using only the Tab, Shift+Tab, Enter, and Space keys.</li>
+          <li>Visible focus indicators are preserved on all controls.</li>
+          <li>No keyboard traps. You can always tab away from any focused element.</li>
+        </ul>
+
+        <h3>Screen reader support</h3>
+        <ul>
+          <li>Pages use semantic HTML landmarks (<code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>) so screen readers can announce structure correctly.</li>
+          <li>Form fields use associated <code>&lt;label&gt;</code> elements; the floating Feedback button has an <code>aria-label</code>.</li>
+          <li>Decorative icons are visual only; meaningful icons sit alongside text labels so they aren't required to understand a control.</li>
+          <li>The dashboard exposes station results as text in addition to visual map markers.</li>
+        </ul>
+
+        <h3>Visual design</h3>
+        <ul>
+          <li>Body text targets a minimum 4.5:1 contrast ratio against its background; large display headings target 3:1 or better.</li>
+          <li>Color is never the only way information is conveyed — risk levels use both color (red / amber / green) and text labels (HIGH RISK / MONITOR / SAFE).</li>
+          <li>Layouts respond down to 320px wide and zoom up to 200% without losing content or functionality.</li>
+        </ul>
+
+        <h3>Motion</h3>
+        <ul>
+          <li>Animations on the homepage, blog cards, and live indicators are subtle and short.</li>
+          <li>If your operating system has "Reduce motion" enabled, decorative animations are minimized in line with the <code>prefers-reduced-motion</code> media query.</li>
+        </ul>
+
+        <h2>3. Accessibility for transit riders</h2>
+        <p>Beyond website-level accessibility, Trakkr's product is itself designed to surface accessibility-critical transit information that other tools obscure:</p>
+        <ul>
+          <li><strong>ADA flagging on equipment alerts:</strong> URGENT-rated elevator and escalator predictions explicitly mark units that are part of a station's accessible path.</li>
+          <li><strong>Live ADA-impact status:</strong> The MTA live feed panel labels current outages as "ADA OK" or "ADA IMPACTED" so riders who depend on accessibility can plan a reroute before they're stranded.</li>
+          <li><strong>Plain-language verdicts:</strong> Predictions are summarized in everyday language (SAFE / CAUTION / HIGH RISK; LOW / MONITOR / URGENT) rather than raw probabilities, so the information is usable in seconds.</li>
+        </ul>
+
+        <h2>4. Known limitations</h2>
+        <p>We're transparent about what isn't perfect yet:</p>
+        <ul>
+          <li><strong>Map controls:</strong> The interactive map on the dashboard relies on Leaflet, which has good but not perfect screen-reader integration. We provide text equivalents for all stations returned in search results.</li>
+          <li><strong>Embedded third-party widgets:</strong> The Buy Me a Coffee button is loaded from a third-party CDN and may not fully match our keyboard/focus standards. You can ignore it without affecting any core functionality.</li>
+          <li><strong>Auto-translated content:</strong> Trakkr is currently English-only. Browser translation tools work, but we have not optimized for non-English screen reader output.</li>
+        </ul>
+        <p>If you encounter another barrier we haven't listed here, please tell us — we treat reports as priority bugs.</p>
+
+        <h2>5. Reporting an issue</h2>
+        <p>If something on Trakkr is hard or impossible for you to use, we want to hear about it directly. Please use the <a href="feedback.html" class="text-[#0039A6] font-bold underline">feedback page</a> and select "Bug report" — note that you're reporting an accessibility issue. Tell us:</p>
+        <ul>
+          <li>The page or feature involved (URL is helpful).</li>
+          <li>The assistive technology you were using (screen reader name, browser, OS).</li>
+          <li>What you expected versus what happened.</li>
+        </ul>
+        <p>We aim to respond within five business days and to ship a fix as quickly as the issue allows.</p>
+
+        <h2>6. Continuous improvement</h2>
+        <p>Accessibility is never "done." We review accessibility against WCAG 2.1 AA on each significant release, run automated checks (axe, Lighthouse), and incorporate feedback from real users of assistive technology. As the project grows, we will keep this statement updated.</p>
+
+        <h2>7. Contact</h2>
+        <p>Accessibility questions, feedback, or assistance requests can be sent through the <a href="feedback.html" class="text-[#0039A6] font-bold underline">feedback page</a>. We read every message.</p>
+
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bg-white border-t-4 border-[#0039A6]">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div class="max-w-xs">
+        <div class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 mb-2">Trakkr</div>
+        <p class="text-sm text-slate-500 leading-relaxed mb-3">Powered by TrakkRecord™. Independent — not affiliated with MTA, NYPD, or NYC government.</p>
+        <p class="text-xs text-slate-400 italic mb-4">We are not the MTA. We are simply better informed about it.</p>
+        <a href="https://buymeacoffee.com/denniscomandante" target="_blank" rel="noopener"
+          class="inline-flex items-center gap-2 bg-[#FFDD00] text-slate-900 font-bold px-4 py-2 rounded-xl text-xs hover:bg-yellow-300 transition-colors">☕ Buy me a coffee</a>
+      </div>
+      <div class="flex flex-wrap gap-10">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Pages</div>
+          <ul class="space-y-2">
+            <li><a href="index.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Home</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">TrakkRecord™</a></li>
+            <li><a href="blog.html"        class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Blogs</a></li>
+            <li><a href="about.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Our Story</a></li>
+            <li><a href="faq.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Legal</div>
+          <ul class="space-y-2">
+            <li><a href="privacy.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Privacy Policy</a></li>
+            <li><a href="legal.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Legal</a></li>
+            <li><a href="accessibility.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Accessibility</a></li>
+            <li><a href="feedback.html"      class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-slate-100 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p class="text-xs text-slate-400">© 2026 Trakkr. TrakkRecord™ predictions are based on historical patterns and do not guarantee future conditions.</p>
+      <p class="text-xs text-slate-400">Built for the CUNY AI Innovation Hackathon 2026.</p>
+    </div>
+  </div>
+</footer>
+
+<a href="feedback.html" id="feedback-pill" aria-label="Send feedback"
+  class="fixed bottom-5 left-5 z-50 inline-flex items-center gap-2 bg-white border border-slate-200 shadow-lg hover:shadow-xl rounded-full pl-4 pr-5 py-3 text-sm font-bold text-[#0039A6] hover:bg-slate-50 transition-all active:scale-95">
+  <span class="material-symbols-outlined text-base">chat_bubble</span>
+  Feedback
+</a>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="denniscomandante" data-description="Support me on Buy me a coffee!" data-message="If my work's saved you time, a coffee keeps it going ☕" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+</body>
+</html>

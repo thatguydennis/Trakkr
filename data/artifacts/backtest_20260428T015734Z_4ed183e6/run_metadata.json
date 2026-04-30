@@ -1,0 +1,25 @@
+{
+  "run_id": "backtest_20260428T015734Z_4ed183e6",
+  "pipeline_name": "backtest",
+  "created_at": "2026-04-28T01:57:34+00:00",
+  "status": "success",
+  "model_backend": "HistGradientBoosting fallback",
+  "results_csv": "/Users/dennis.comandante/Claude Cowork/Projects/CUNY AI INNOVATION 2026/data/artifacts/backtest_20260428T015734Z_4ed183e6/backtest_results.csv",
+  "rows": 8,
+  "summary_means": {
+    "model1": {
+      "accuracy_pct": 98.024,
+      "auc": 0.753,
+      "precision_pct": 52.24,
+      "recall_pct": 8.72,
+      "f1_pct": 14.32
+    },
+    "model2": {
+      "accuracy_pct": 96.77,
+      "auc": 0.97,
+      "precision_pct": 78.367,
+      "recall_pct": 51.067,
+      "f1_pct": 61.733
+    }
+  }
+}

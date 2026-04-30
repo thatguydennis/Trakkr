@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.ipynb_checkpoints/
+
+# Python virtualenv (274 MB — never commit)
+.venv/
+venv/
+env/
+
+# Secrets — keep .env.example committed, .env never
+.env
+.env.local
+.env.*.local
+
+# macOS / OS junk
+.DS_Store
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs + tmp
+*.log
+.cache/
+
+# Locally-generated QR code (regenerated on demand)
+trakkr-qr.png

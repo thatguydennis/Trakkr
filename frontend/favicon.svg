@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Orange outer ring — transit authority badge style -->
+  <circle cx="16" cy="16" r="16" fill="#FF6319"/>
+  <!-- Blue inner circle -->
+  <circle cx="16" cy="16" r="12.5" fill="#0039A6"/>
+  <!-- T — horizontal top bar -->
+  <rect x="8" y="10" width="16" height="4.5" rx="1.5" fill="white"/>
+  <!-- T — vertical stem -->
+  <rect x="13.75" y="10" width="4.5" height="13" rx="1.25" fill="white"/>
+</svg>

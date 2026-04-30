@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<title>Privacy Policy — Trakkr</title>
+<meta name="description" content="How Trakkr handles data. No accounts, no cookies, no selling your information — and full disclosure on every third-party service we use."/>
+<meta name="theme-color" content="#0039A6"/>
+<link rel="canonical" href="privacy.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Trakkr"/>
+<meta property="og:title" content="Privacy Policy — Trakkr"/>
+<meta property="og:description" content="How Trakkr handles data. No accounts, no cookies, no selling your information — and full disclosure on every third-party service we use."/>
+<meta property="og:url" content="privacy.html"/>
+<meta property="og:image" content="favicon.svg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Privacy Policy — Trakkr"/>
+<meta name="twitter:description" content="How Trakkr handles data. No accounts, no cookies, no selling your information — and full disclosure on every third-party service we use."/>
+<meta name="twitter:image" content="favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  html { scroll-behavior: smooth; }
+  .prose-policy h2 { font-weight: 800; color: #002675; margin-top: 2.5rem; margin-bottom: 0.75rem; font-size: 1.25rem; }
+  .prose-policy h3 { font-weight: 700; color: #002675; margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem; }
+  .prose-policy p, .prose-policy li { color: #434653; line-height: 1.7; font-size: 0.9375rem; }
+  .prose-policy ul { padding-left: 1.5rem; margin: 0.75rem 0; }
+  .prose-policy li { margin-bottom: 0.4rem; list-style: disc; }
+  .prose-policy strong { color: #191c1d; font-weight: 700; }
+</style>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: { extend: {
+      colors: { "primary": "#002675", "on-surface-variant": "#434653" },
+      fontFamily: { "body-rt": ["Inter"], "label-caps": ["Space Grotesk"] }
+    }}
+  }
+</script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-body-rt overflow-x-hidden">
+
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 shrink-0">Trakkr</a>
+    <nav class="hidden md:flex items-center gap-1">
+      <a href="trakkrecord.html" class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">TrakkRecord™</a>
+      <a href="blog.html"        class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Blogs</a>
+      <a href="about.html"       class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Our Story</a>
+      <a href="faq.html"         class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">FAQ</a>
+    </nav>
+    <button type="button" id="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false"
+      class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
+      <span class="material-symbols-outlined" id="mobile-nav-icon">menu</span>
+    </button>
+    <a href="index.html#hero-search" class="bg-gradient-to-r from-[#0039A6] to-orange-500 text-white px-5 py-2 rounded-xl font-bold text-sm active:scale-95 transition-transform">Check a Station</a>
+  </div>
+</header>
+<!-- mobile-nav-injected -->
+<div id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full z-40 bg-white border-b border-slate-200 shadow-lg transform -translate-y-full opacity-0 invisible transition-[transform,opacity,visibility] duration-200">
+  <nav class="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-1">
+    <a href="trakkrecord.html" class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">TrakkRecord™</a>
+    <a href="blog.html"        class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Blogs</a>
+    <a href="about.html"       class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Our Story</a>
+    <a href="faq.html"         class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">FAQ</a>
+  </nav>
+</div>
+<style>
+  #mobile-nav.is-open { transform: translateY(0); opacity: 1; visibility: visible; }
+</style>
+<script>
+(function(){
+  const btn = document.getElementById('mobile-nav-toggle');
+  const drawer = document.getElementById('mobile-nav');
+  const icon = document.getElementById('mobile-nav-icon');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
+  });
+  // Close when a nav link is tapped
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    drawer.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    if (icon) icon.textContent = 'menu';
+  }));
+})();
+</script>
+
+<main class="pt-16">
+
+  <section class="bg-[#001a5c] py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/20 text-orange-300 rounded-full mb-5 border border-orange-400/20 text-xs font-bold uppercase tracking-widest">
+        Legal · Privacy
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-[40px] font-black text-white leading-tight mb-3">Privacy Policy</h1>
+      <p class="text-blue-200 text-base">Effective: April 30, 2026 · Last updated: April 30, 2026</p>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <article class="prose-policy bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-12">
+
+        <p class="text-base"><strong>The short version:</strong> Trakkr does not require an account, does not track you with cookies, does not run advertising, and does not sell or share your data. The full details are below.</p>
+
+        <h2>1. Who we are</h2>
+        <p>Trakkr is an independent transit safety tool built for the CUNY AI Innovation Hackathon 2026. We are not affiliated with the Metropolitan Transportation Authority (MTA), the New York Police Department (NYPD), or any other government agency. References to "we," "us," and "our" mean the maintainers of Trakkr.</p>
+
+        <h2>2. Information we collect</h2>
+
+        <h3>Information you provide</h3>
+        <ul>
+          <li><strong>Address lookups:</strong> When you enter an address to check a station, the address is sent to our backend so it can be turned into a map location and matched to the nearest subway station. We do not store these queries with your identity attached.</li>
+          <li><strong>Feedback messages:</strong> If you submit the feedback form, your message — and any name and email you optionally provide — is delivered to us through Web3Forms. See "Third-party services" below.</li>
+        </ul>
+
+        <h3>Information collected automatically</h3>
+        <ul>
+          <li><strong>Server logs:</strong> Like most websites, our backend records standard request metadata (IP address, request timestamp, user-agent string) for short periods, primarily to detect abuse and stabilize the service. These logs are not used to build user profiles.</li>
+          <li><strong>No analytics SDKs:</strong> We do not currently embed Google Analytics, Meta Pixel, or comparable tracking scripts. If we add lightweight, privacy-respecting analytics in the future, we will update this policy.</li>
+        </ul>
+
+        <h2>3. How we use information</h2>
+        <p>We use the information we collect for the following purposes:</p>
+        <ul>
+          <li>To return safety, equipment, and live transit information for the station you ask about.</li>
+          <li>To respond to feedback or inquiries you send us through the feedback form.</li>
+          <li>To diagnose technical issues, prevent abuse, and improve model accuracy.</li>
+        </ul>
+        <p>We do not use your information for advertising, profiling, or sale to third parties.</p>
+
+        <h2>4. Third-party services</h2>
+        <p>Trakkr relies on a small number of third-party services to function. Each has its own privacy policy, which governs the data they handle on our behalf:</p>
+        <ul>
+          <li><strong>Mapbox</strong> — converts the addresses you type into map coordinates and serves the base map tiles displayed on the dashboard.</li>
+          <li><strong>MTA Open Data &amp; NYPD Open Data</strong> — public datasets that power our predictions. We do not send any user-identifying information to these sources.</li>
+          <li><strong>Web3Forms</strong> — relays feedback form submissions to our inbox. Your name, email (if provided), and message are processed by Web3Forms in transit.</li>
+          <li><strong>Buy Me a Coffee</strong> — optional support widget. Loads only if you click it. Buy Me a Coffee handles any payment information directly; we do not see card details.</li>
+          <li><strong>Cloudflare CDN, Google Fonts, Tailwind CDN</strong> — used to deliver page assets. These services may log IP and user-agent.</li>
+        </ul>
+
+        <h2>5. Cookies and similar technologies</h2>
+        <p>Trakkr does not set first-party tracking cookies. Some third-party assets (e.g., the Buy Me a Coffee widget if loaded, or font/CDN providers) may set technical cookies in your browser. You can configure your browser to block third-party cookies without losing core Trakkr functionality.</p>
+
+        <h2>6. Data retention</h2>
+        <ul>
+          <li><strong>Address queries:</strong> Not retained beyond the request itself.</li>
+          <li><strong>Server logs:</strong> Retained for up to 30 days, then rotated.</li>
+          <li><strong>Feedback messages:</strong> Retained in our email inbox until we manually delete them, typically once an issue is resolved.</li>
+        </ul>
+
+        <h2>7. Children's privacy</h2>
+        <p>Trakkr is a general-audience public information tool. We do not knowingly collect information from children under 13. If you believe a child has submitted information to us, contact us through the feedback form and we will delete it.</p>
+
+        <h2>8. Your rights</h2>
+        <p>Depending on where you live, you may have the right to access, correct, or delete information we hold about you. Because we do not maintain user accounts and do not retain query history with identifiers, we typically have nothing on file that maps to a specific individual. To exercise a right or ask a question, contact us through the <a href="feedback.html" class="text-[#0039A6] font-bold underline">feedback page</a>.</p>
+
+        <h2>9. Security</h2>
+        <p>All Trakkr traffic is served over HTTPS. Feedback form submissions are transmitted to Web3Forms over TLS. We follow reasonable security practices, but no internet service can be guaranteed 100% secure. If you discover a vulnerability, please report it via the feedback form.</p>
+
+        <h2>10. Changes to this policy</h2>
+        <p>We may update this policy as Trakkr evolves. The "Last updated" date at the top reflects the most recent change. Material changes will be highlighted on the homepage for a reasonable period.</p>
+
+        <h2>11. Contact</h2>
+        <p>Questions about this policy? Use the <a href="feedback.html" class="text-[#0039A6] font-bold underline">feedback page</a> and select "Other" as the type. We respond from a private inbox.</p>
+
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bg-white border-t-4 border-[#0039A6]">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div class="max-w-xs">
+        <div class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 mb-2">Trakkr</div>
+        <p class="text-sm text-slate-500 leading-relaxed mb-3">Powered by TrakkRecord™. Independent — not affiliated with MTA, NYPD, or NYC government.</p>
+        <p class="text-xs text-slate-400 italic mb-4">We are not the MTA. We are simply better informed about it.</p>
+        <a href="https://buymeacoffee.com/denniscomandante" target="_blank" rel="noopener"
+          class="inline-flex items-center gap-2 bg-[#FFDD00] text-slate-900 font-bold px-4 py-2 rounded-xl text-xs hover:bg-yellow-300 transition-colors">☕ Buy me a coffee</a>
+      </div>
+      <div class="flex flex-wrap gap-10">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Pages</div>
+          <ul class="space-y-2">
+            <li><a href="index.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Home</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">TrakkRecord™</a></li>
+            <li><a href="blog.html"        class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Blogs</a></li>
+            <li><a href="about.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Our Story</a></li>
+            <li><a href="faq.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Legal</div>
+          <ul class="space-y-2">
+            <li><a href="privacy.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Privacy Policy</a></li>
+            <li><a href="legal.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Legal</a></li>
+            <li><a href="accessibility.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Accessibility</a></li>
+            <li><a href="feedback.html"      class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-slate-100 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p class="text-xs text-slate-400">© 2026 Trakkr. TrakkRecord™ predictions are based on historical patterns and do not guarantee future conditions.</p>
+      <p class="text-xs text-slate-400">Built for the CUNY AI Innovation Hackathon 2026.</p>
+    </div>
+  </div>
+</footer>
+
+<a href="feedback.html" id="feedback-pill" aria-label="Send feedback"
+  class="fixed bottom-5 left-5 z-50 inline-flex items-center gap-2 bg-white border border-slate-200 shadow-lg hover:shadow-xl rounded-full pl-4 pr-5 py-3 text-sm font-bold text-[#0039A6] hover:bg-slate-50 transition-all active:scale-95">
+  <span class="material-symbols-outlined text-base">chat_bubble</span>
+  Feedback
+</a>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="denniscomandante" data-description="Support me on Buy me a coffee!" data-message="If my work's saved you time, a coffee keeps it going ☕" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+</body>
+</html>

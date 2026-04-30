@@ -1,0 +1,34 @@
+{
+  "model1_elevator_sla_breach": {
+    "accuracy": 99.3,
+    "threshold": 0.92,
+    "auc": 0.6553,
+    "precision": 100.0,
+    "recall": 2.4,
+    "f1": 4.7,
+    "hc_precision": 13.5,
+    "hc_alert_count": 37,
+    "cv_mean": 92.18,
+    "cv_std": 0.35,
+    "train_rows": 20689,
+    "test_rows": 11565,
+    "target_description": "AM peak availability < 80% (SLA breach)",
+    "breach_base_rate": 0.72
+  },
+  "model2_crime_hotspot": {
+    "accuracy": 96.78,
+    "threshold": 0.91,
+    "auc": 0.9507,
+    "precision": 79.1,
+    "recall": 49.6,
+    "f1": 60.9,
+    "hc_precision": 60.2,
+    "hc_alert_count": 339,
+    "cv_mean": 93.35,
+    "cv_std": 0.51,
+    "train_rows": 6106,
+    "test_rows": 6653,
+    "target_description": "Station in top 5% monthly crime count (chronic hotspot)",
+    "hotspot_base_rate": 5.07
+  }
+}

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<title>FAQ — Trakkr</title>
+<meta name="description" content="Everything riders ask about Trakkr — what it does, how it works, your privacy, and how forecasts get made. No login required."/>
+<meta name="theme-color" content="#0039A6"/>
+<link rel="canonical" href="faq.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Trakkr"/>
+<meta property="og:title" content="FAQ — Trakkr"/>
+<meta property="og:description" content="Everything riders ask about Trakkr — what it does, how it works, your privacy, and how forecasts get made. No login required."/>
+<meta property="og:url" content="faq.html"/>
+<meta property="og:image" content="favicon.svg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="FAQ — Trakkr"/>
+<meta name="twitter:description" content="Everything riders ask about Trakkr — what it does, how it works, your privacy, and how forecasts get made. No login required."/>
+<meta name="twitter:image" content="favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chevron { transform: rotate(180deg); }
+  .chevron { transition: transform 0.2s ease; }
+  html { scroll-behavior: smooth; }
+</style>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#002675", "on-surface-variant": "#434653",
+          "background": "#f8f9fa", "on-surface": "#191c1d"
+        },
+        fontFamily: {
+          "display-lg": ["Inter"], "body-rt": ["Inter"],
+          "label-caps": ["Space Grotesk"], "headline-md": ["Inter"], "data-point": ["Space Grotesk"]
+        },
+        fontSize: {
+          "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
+          "label-caps": ["12px", { lineHeight: "1.0", fontWeight: "700" }],
+          "headline-md": ["24px", { lineHeight: "1.2", fontWeight: "700" }],
+          "data-point": ["20px", { lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "600" }]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-body-rt overflow-x-hidden">
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 shrink-0">Trakkr</a>
+    <nav class="hidden md:flex items-center gap-1">
+      <a href="trakkrecord.html" class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">TrakkRecord™</a>
+      <a href="blog.html"        class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Blogs</a>
+      <a href="about.html"       class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Our Story</a>
+      <a href="faq.html"         class="text-[#0039A6] font-bold bg-blue-50 rounded-lg px-3 py-1.5 text-sm">FAQ</a>
+    </nav>
+    <button type="button" id="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false"
+      class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
+      <span class="material-symbols-outlined" id="mobile-nav-icon">menu</span>
+    </button>
+    <a href="index.html#hero-search" class="bg-gradient-to-r from-[#0039A6] to-orange-500 text-white px-5 py-2 rounded-xl font-bold text-sm active:scale-95 transition-transform">
+      Check a Station
+    </a>
+  </div>
+</header>
+<!-- mobile-nav-injected -->
+<div id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full z-40 bg-white border-b border-slate-200 shadow-lg transform -translate-y-full opacity-0 invisible transition-[transform,opacity,visibility] duration-200">
+  <nav class="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-1">
+    <a href="trakkrecord.html" class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">TrakkRecord™</a>
+    <a href="blog.html"        class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Blogs</a>
+    <a href="about.html"       class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Our Story</a>
+    <a href="faq.html"         class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">FAQ</a>
+  </nav>
+</div>
+<style>
+  #mobile-nav.is-open { transform: translateY(0); opacity: 1; visibility: visible; }
+</style>
+<script>
+(function(){
+  const btn = document.getElementById('mobile-nav-toggle');
+  const drawer = document.getElementById('mobile-nav');
+  const icon = document.getElementById('mobile-nav-icon');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
+  });
+  // Close when a nav link is tapped
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    drawer.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    if (icon) icon.textContent = 'menu';
+  }));
+})();
+</script>
+
+<main class="pt-16">
+
+  <!-- Hero -->
+  <section class="bg-[#001a5c] py-20 px-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/20 text-orange-300 rounded-full mb-6 border border-orange-400/20 text-xs font-bold uppercase tracking-widest">
+        Help Center
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-[48px] font-black text-white leading-none mb-4">Frequently Asked<br/>Questions</h1>
+      <p class="text-blue-200 text-lg leading-relaxed">
+        Everything you need to know about Trakkr, TrakkRecord™, and how we use public data
+        to keep you informed. No account required. No data collected.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ Body -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto space-y-12">
+
+      <!-- What is Trakkr? -->
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 bg-[#0039A6]/10 rounded-xl flex items-center justify-center">
+            <span class="material-symbols-outlined text-[#0039A6] text-base" style="font-variation-settings:'FILL' 1">info</span>
+          </div>
+          <h2 class="font-bold text-primary uppercase tracking-widest text-xs">What is Trakkr?</h2>
+        </div>
+        <div class="space-y-3">
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">What does Trakkr do?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              Trakkr is a free transit safety tool for NYC subway riders. You enter a destination address — Trakkr finds the nearest subway station and uses TrakkRecord™, the engine behind Trakkr, to tell you two things: (1) the safety outlook for that station, and (2) which elevators and escalators are likely to break down in the next 30 days. No login. No account. Just enter an address.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Is Trakkr affiliated with the MTA or NYPD?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              No. Trakkr is fully independent. We're not affiliated with the MTA, NYPD, NYC government, or any transit agency. We use the same public data anyone can download — and we put in the work to turn it into something a rider can actually use in 30 seconds. We are not the MTA. We are simply better informed about it.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Do I need to create an account?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              No. Trakkr requires no login, no account, and no personal information of any kind. Enter an address. Get a prediction. That's it.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Which stations does it cover?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              Trakkr currently covers 371 NYC subway stations across Manhattan, Brooklyn, the Bronx, and Queens. Staten Island Railway is not yet included. Coverage expands as new data becomes available.
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <!-- Safety Data -->
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 bg-blue-50 rounded-xl flex items-center justify-center">
+            <span class="material-symbols-outlined text-[#0039A6] text-base" style="font-variation-settings:'FILL' 1">security</span>
+          </div>
+          <h2 class="font-bold text-primary uppercase tracking-widest text-xs">Safety Data</h2>
+        </div>
+        <div class="space-y-3">
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden" open>
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Where does the crime data come from?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              The crime model is trained on NYPD Transit Crime open data — years of incident records covering transit crime across Manhattan, Brooklyn, Bronx, and Queens. Incidents are weighted by severity and normalized against monthly ridership volume so high-traffic stations aren't unfairly flagged.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">What do SAFE / CAUTION / HIGH RISK mean?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              These are TrakkRecord™'s plain-language crime risk labels for a station:
+              <ul class="mt-3 space-y-3">
+                <li class="flex items-start gap-3">
+                  <span class="px-2 py-0.5 bg-green-100 text-green-700 font-bold text-xs rounded-full shrink-0 mt-0.5">SAFE</span>
+                  <span>Hotspot probability is low. Crime activity at this station is below the borough average based on historical patterns.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="px-2 py-0.5 bg-amber-100 text-amber-700 font-bold text-xs rounded-full shrink-0 mt-0.5">CAUTION</span>
+                  <span>Crime activity is above average for the borough. Not necessarily dangerous, but worth being aware of.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="px-2 py-0.5 bg-red-100 text-red-700 font-bold text-xs rounded-full shrink-0 mt-0.5">HIGH RISK</span>
+                  <span>TrakkRecord™ places this station in the top-risk tier for its borough. Incidents — including felonies — occur more often here relative to ridership.</span>
+                </li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Is this real-time crime data?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              No — and this is intentional. Trakkr is <strong>predictive</strong>, not a live feed. TrakkRecord™ analyzes years of historical crime patterns to forecast which stations are structurally at higher risk. A live incident feed would only tell you something already happened. We tell you what patterns suggest is likely to happen next.
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <!-- Maintenance Predictions -->
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 bg-orange-50 rounded-xl flex items-center justify-center">
+            <span class="material-symbols-outlined text-orange-500 text-base" style="font-variation-settings:'FILL' 1">elevator</span>
+          </div>
+          <h2 class="font-bold text-primary uppercase tracking-widest text-xs">Maintenance Predictions</h2>
+        </div>
+        <div class="space-y-3">
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">How are elevator failures predicted?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              TrakkRecord™ is trained on 10 years of MTA elevator and escalator availability records across 689 equipment units at 180 stations. The model predicts which units have a high probability of needing unscheduled service in the next 30 days, based on outage history, days since last maintenance, equipment type, and seasonal wear patterns.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">What do URGENT / MONITOR / LOW RISK mean for equipment?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              These are severity tiers for individual elevator and escalator units:
+              <ul class="mt-3 space-y-3">
+                <li class="flex items-start gap-3">
+                  <span class="px-2 py-0.5 bg-red-100 text-red-700 font-bold text-xs rounded-full shrink-0 mt-0.5">URGENT</span>
+                  <span>Likely to break down soon — and has trapped riders inside before. Plan an alternative route.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="px-2 py-0.5 bg-amber-100 text-amber-700 font-bold text-xs rounded-full shrink-0 mt-0.5">MONITOR</span>
+                  <span>Elevated risk, but not at the urgent level yet. Worth knowing if you depend on this unit.</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="px-2 py-0.5 bg-green-100 text-green-700 font-bold text-xs rounded-full shrink-0 mt-0.5">LOW RISK</span>
+                  <span>Wearing normally for its age. No unplanned outage expected in the next 30 days.</span>
+                </li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Does Trakkr confirm outages in real-time?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              Trakkr predicts service risk based on patterns — it does not pull live outage confirmations from MTA systems. For real-time outage status, check the <a href="https://new.mta.info/" class="text-[#0039A6] font-bold underline">MTA website</a> or the MTA app. Trakkr tells you which units are at risk before they go down. MTA tells you after they do.
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <!-- Privacy -->
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 bg-green-50 rounded-xl flex items-center justify-center">
+            <span class="material-symbols-outlined text-green-600 text-base" style="font-variation-settings:'FILL' 1">lock</span>
+          </div>
+          <h2 class="font-bold text-primary uppercase tracking-widest text-xs">Privacy &amp; Data</h2>
+        </div>
+        <div class="space-y-3">
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Is my location being tracked?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              No. Trakkr doesn't track your location, store your IP address, or save any personal data. You type an address — we look up where it sits on the map, find your nearest station, send you the report, and forget the address. Nothing about you is kept around.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">What data does Trakkr collect about me?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              None. Trakkr is built entirely from public records — MTA equipment logs and NYPD safety records — that aren't tied to any individual rider. We don't use anyone's personal behavior to make a forecast. No accounts, no profiles, no cookie tracking, no analytics beyond making sure the server is up.
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <!-- About TrakkRecord -->
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 bg-purple-50 rounded-xl flex items-center justify-center">
+            <span class="material-symbols-outlined text-purple-600 text-base" style="font-variation-settings:'FILL' 1">model_training</span>
+          </div>
+          <h2 class="font-bold text-primary uppercase tracking-widest text-xs">About TrakkRecord™</h2>
+        </div>
+        <div class="space-y-3">
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">What is TrakkRecord™?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              TrakkRecord™ is the engine behind Trakkr. It's two custom forecasts: one that predicts which elevators and escalators are likely to break down, and one that predicts which stations are likely to turn into safety hotspots. Both are tuned to err on the side of warning you about a risk that doesn't pan out, rather than missing one that does. Learn more on the <a href="trakkrecord.html" class="text-[#0039A6] font-bold underline">TrakkRecord™ page</a>.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">What does "93% accurate" actually mean?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              When we say Trakkr's safety forecast is 93% accurate, we mean this: of all the stations that actually turned into hotspots in our test records, Trakkr correctly flagged 93 out of every 100 of them in advance. We tune for that number — catching real risks — instead of overall "accuracy," because missing a real risk is more harmful to a rider than occasionally flagging a station that ends up being fine.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">How far into the future do predictions go?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              The dashboard shows a rolling 90-day outlook. The safety forecast looks back across five years of records to spot the patterns that matter. The elevator and escalator forecast is refreshed every month from each unit's outage and repair history.
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Can I use TrakkRecord™ in my own app?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              Yes — TrakkRecord™ is available to developers, researchers, and organizations who want to pull station reports straight into their own products. Every request comes back with the safety verdict, equipment status, the overall outlook, and nearby station alternatives. To get access, visit the <a href="trakkrecord.html#enterprise" class="text-[#0039A6] font-bold underline">TrakkRecord™ page</a>.
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <!-- Support Trakkr -->
+      <div>
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-8 h-8 bg-yellow-50 rounded-xl flex items-center justify-center">
+            <span class="text-lg">☕</span>
+          </div>
+          <h2 class="font-bold text-primary uppercase tracking-widest text-xs">Support Trakkr</h2>
+        </div>
+        <div class="space-y-3">
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">Is Trakkr free? How is it funded?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              Yes, Trakkr is completely free for all riders — no ads, no subscriptions, no tracking. It's an independent project built for the CUNY AI Innovation Hackathon 2026. If it's useful to you, you can support the work by buying the developer a coffee.
+              <div class="mt-4">
+                <a href="https://buymeacoffee.com/denniscomandante" target="_blank" rel="noopener"
+                  class="inline-flex items-center gap-2 bg-[#FFDD00] text-slate-900 font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-yellow-300 transition-colors">
+                  ☕ Buy me a coffee
+                </a>
+              </div>
+            </div>
+          </details>
+
+          <details class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <summary class="flex items-center justify-between px-6 py-5">
+              <span class="font-bold text-primary text-base">How can I give feedback or report a bug?</span>
+              <span class="material-symbols-outlined text-slate-400 chevron shrink-0">expand_more</span>
+            </summary>
+            <div class="px-6 pb-6 text-on-surface-variant leading-relaxed text-sm border-t border-slate-50 pt-4">
+              Head to our <a href="feedback.html" class="text-[#0039A6] font-bold underline">feedback page</a> — bug reports, feature ideas, and partnership inquiries all welcome. You can also tap the <strong>Feedback</strong> button in the bottom-left corner of any page to get there directly.
+            </div>
+          </details>
+
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="bg-gradient-to-br from-[#001a5c] to-[#0039A6] rounded-3xl p-8 text-center">
+        <h3 class="font-black text-white text-xl mb-2">Ready to check your station?</h3>
+        <p class="text-blue-200 text-sm mb-6">Enter any NYC destination address. No login required.</p>
+        <a href="index.html#hero-search"
+          class="inline-flex items-center gap-2 bg-white text-[#0039A6] font-bold px-8 py-3 rounded-xl text-sm hover:bg-blue-50 transition-colors">
+          <span class="material-symbols-outlined text-base">search</span>
+          Check a Station
+        </a>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="bg-white border-t-4 border-[#0039A6]">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div class="max-w-xs">
+        <div class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 mb-2">Trakkr</div>
+        <p class="text-sm text-slate-500 leading-relaxed mb-3">Powered by TrakkRecord™. Independent — not affiliated with MTA, NYPD, or NYC government.</p>
+        <p class="text-xs text-slate-400 italic mb-4">We are not the MTA. We are simply better informed about it.</p>
+        <a href="https://buymeacoffee.com/denniscomandante" target="_blank" rel="noopener"
+          class="inline-flex items-center gap-2 bg-[#FFDD00] text-slate-900 font-bold px-4 py-2 rounded-xl text-xs hover:bg-yellow-300 transition-colors">
+          ☕ Buy me a coffee
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-10">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Pages</div>
+          <ul class="space-y-2">
+            <li><a href="index.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Home</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">TrakkRecord™</a></li>
+            <li><a href="blog.html"        class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Blogs</a></li>
+            <li><a href="about.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Our Story</a></li>
+            <li><a href="faq.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Data</div>
+          <ul class="space-y-2">
+            <li><a href="https://data.ny.gov/browse?Dataset-Information_Agency=Metropolitan+Transportation+Authority" target="_blank" rel="noopener" class="block py-1.5 text-sm text-slate-600 hover:text-[#0039A6] transition-colors">MTA Open Data</a></li>
+            <li><a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243" target="_blank" rel="noopener" class="block py-1.5 text-sm text-slate-600 hover:text-[#0039A6] transition-colors">NYPD Transit Crime</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">How Trakkr Works</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Legal</div>
+          <ul class="space-y-2">
+            <li><a href="privacy.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Privacy Policy</a></li>
+            <li><a href="legal.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Legal</a></li>
+            <li><a href="accessibility.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Accessibility</a></li>
+            <li><a href="feedback.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-slate-100 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p class="text-xs text-slate-400">© 2026 Trakkr. TrakkRecord™ predictions are based on historical patterns and do not guarantee future conditions.</p>
+      <p class="text-xs text-slate-400">Built for the CUNY AI Innovation Hackathon 2026.</p>
+    </div>
+  </div>
+</footer>
+
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="denniscomandante" data-description="Support me on Buy me a coffee!" data-message="If my work's saved you time, a coffee keeps it going ☕" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+<a href="feedback.html" id="feedback-pill" aria-label="Send feedback"
+  class="fixed bottom-5 left-5 z-50 inline-flex items-center gap-2 bg-white border border-slate-200 shadow-lg hover:shadow-xl rounded-full pl-4 pr-5 py-3 text-sm font-bold text-[#0039A6] hover:bg-slate-50 transition-all active:scale-95">
+  <span class="material-symbols-outlined text-base">chat_bubble</span>
+  Feedback
+</a>
+
+</body>
+</html>

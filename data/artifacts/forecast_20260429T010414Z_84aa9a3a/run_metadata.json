@@ -1,0 +1,20 @@
+{
+  "run_id": "forecast_20260429T010414Z_84aa9a3a",
+  "pipeline_name": "forecast",
+  "created_at": "2026-04-29T01:04:14+00:00",
+  "status": "success",
+  "scenario_mode": "baseline",
+  "model_backend": "XGBoost",
+  "row_counts": {
+    "model1_rows": 24444,
+    "model2_rows": 13320
+  },
+  "positive_predictions": {
+    "model1": 18195,
+    "model2": 1960
+  },
+  "outputs": {
+    "model1_csv": "/Users/dennis.comandante/Claude Cowork/Projects/CUNY AI INNOVATION 2026/data/artifacts/forecast_20260429T010414Z_84aa9a3a/forecast_model1_2027_2029.csv",
+    "model2_csv": "/Users/dennis.comandante/Claude Cowork/Projects/CUNY AI INNOVATION 2026/data/artifacts/forecast_20260429T010414Z_84aa9a3a/forecast_model2_2027_2029.csv"
+  }
+}

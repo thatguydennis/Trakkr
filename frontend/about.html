@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<title>Our Story — Trakkr</title>
+<meta name="description" content="Why we built Trakkr, what we stand for, and how a free transit safety tool fits into the bigger picture of NYC commuting."/>
+<meta name="theme-color" content="#0039A6"/>
+<link rel="canonical" href="about.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Trakkr"/>
+<meta property="og:title" content="Our Story — Trakkr"/>
+<meta property="og:description" content="Why we built Trakkr, what we stand for, and how a free transit safety tool fits into the bigger picture of NYC commuting."/>
+<meta property="og:url" content="about.html"/>
+<meta property="og:image" content="favicon.svg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Our Story — Trakkr"/>
+<meta name="twitter:description" content="Why we built Trakkr, what we stand for, and how a free transit safety tool fits into the bigger picture of NYC commuting."/>
+<meta name="twitter:image" content="favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  html { scroll-behavior: smooth; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#002675", "on-surface-variant": "#434653",
+          "background": "#f8f9fa", "on-surface": "#191c1d",
+          "secondary": "#a73a00", "tertiary-container": "#004967"
+        },
+        fontFamily: {
+          "display-lg": ["Inter"], "body-rt": ["Inter"],
+          "label-caps": ["Space Grotesk"], "headline-md": ["Inter"], "data-point": ["Space Grotesk"]
+        },
+        fontSize: {
+          "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
+          "body-rt":    ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+          "label-caps": ["12px", { lineHeight: "1.0", fontWeight: "700" }],
+          "headline-md":["24px", { lineHeight: "1.2", fontWeight: "700" }],
+          "data-point": ["20px", { lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "600" }]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-[#f8f9fa] font-body-rt text-on-surface overflow-x-hidden">
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 shrink-0">Trakkr</a>
+    <nav class="hidden md:flex items-center gap-1">
+      <a href="trakkrecord.html" class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">TrakkRecord™</a>
+      <a href="blog.html"        class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Blogs</a>
+      <a href="about.html"       class="text-[#0039A6] font-bold bg-blue-50 rounded-lg px-3 py-1.5 text-sm">Our Story</a>
+      <a href="faq.html"         class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">FAQ</a>
+    </nav>
+    <button type="button" id="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false"
+      class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
+      <span class="material-symbols-outlined" id="mobile-nav-icon">menu</span>
+    </button>
+    <a href="index.html#hero-search" class="bg-gradient-to-r from-[#0039A6] to-orange-500 text-white px-5 py-2 rounded-xl font-bold text-sm active:scale-95 transition-transform">
+      Check a Station
+    </a>
+  </div>
+</header>
+<!-- mobile-nav-injected -->
+<div id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full z-40 bg-white border-b border-slate-200 shadow-lg transform -translate-y-full opacity-0 invisible transition-[transform,opacity,visibility] duration-200">
+  <nav class="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-1">
+    <a href="trakkrecord.html" class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">TrakkRecord™</a>
+    <a href="blog.html"        class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Blogs</a>
+    <a href="about.html"       class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Our Story</a>
+    <a href="faq.html"         class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">FAQ</a>
+  </nav>
+</div>
+<style>
+  #mobile-nav.is-open { transform: translateY(0); opacity: 1; visibility: visible; }
+</style>
+<script>
+(function(){
+  const btn = document.getElementById('mobile-nav-toggle');
+  const drawer = document.getElementById('mobile-nav');
+  const icon = document.getElementById('mobile-nav-icon');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
+  });
+  // Close when a nav link is tapped
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    drawer.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    if (icon) icon.textContent = 'menu';
+  }));
+})();
+</script>
+
+<main class="pt-16">
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="relative bg-[#001a5c] overflow-hidden py-28 px-6">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-orange-500/10 rounded-full blur-[110px]"></div>
+      <div class="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] bg-[#0039A6]/40 rounded-full blur-[100px]"></div>
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/20 text-orange-300 rounded-full mb-8 border border-orange-400/20 text-xs font-bold uppercase tracking-widest">
+        Our Story
+      </div>
+      <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-black text-white leading-none mb-6">
+        Information is a right,<br/><span class="text-orange-400">not a privilege.</span>
+      </h1>
+      <p class="text-blue-200 text-lg leading-relaxed max-w-2xl">
+        Trakkr was built because the people who depend most on the subway — riders with disabilities,
+        parents, night-shift workers, seniors — are also the ones who suffer most when it fails them.
+        We believe they deserve better than a tweet from the MTA.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       OPENING STATEMENT
+       ============================================================ -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="font-bold text-xs text-[#0039A6] tracking-widest uppercase block mb-4">Where It Started</span>
+          <h2 class="text-[36px] font-black text-primary leading-tight mb-5">
+            Born from a missed train and a broken elevator.
+          </h2>
+          <p class="text-on-surface-variant leading-relaxed mb-4">
+            Every rider in New York City knows the feeling: you're on the platform, the elevator is out,
+            the MTA alert came 20 minutes too late. For most riders, it's an inconvenience.
+            For someone in a wheelchair, with a stroller, or carrying heavy equipment — it can mean
+            being completely stranded.
+          </p>
+          <p class="text-on-surface-variant leading-relaxed">
+            Trakkr was born from asking one question: what if you knew <em>before</em> you left?
+            Before the incident. Before the breakdown. Before the tweet.
+          </p>
+        </div>
+        <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100">
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-red-500 text-lg" style="font-variation-settings:'FILL' 1">warning</span>
+              </div>
+              <div>
+                <div class="font-bold text-primary text-sm mb-1">4.3 million riders daily</div>
+                <div class="text-on-surface-variant text-sm">Most find out about problems on the platform — already late.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-amber-500 text-lg" style="font-variation-settings:'FILL' 1">elevator</span>
+              </div>
+              <div>
+                <div class="font-bold text-primary text-sm mb-1">689 elevator &amp; escalator units</div>
+                <div class="text-on-surface-variant text-sm">Across 180 stations — any one of them can derail a commute without warning.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-blue-500 text-lg" style="font-variation-settings:'FILL' 1">visibility_off</span>
+              </div>
+              <div>
+                <div class="font-bold text-primary text-sm mb-1">Crime data exists — buried</div>
+                <div class="text-on-surface-variant text-sm">Years of public records. No tool that makes them useful to actual riders.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       THE TRANSIT EQUITY GAP
+       ============================================================ -->
+  <section class="py-20 px-6 bg-slate-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="font-bold text-xs text-[#0039A6] tracking-widest uppercase block mb-3">The Bigger Picture</span>
+        <h2 class="text-3xl sm:text-4xl md:text-[40px] font-black text-primary mb-4">Transit safety isn't equal.</h2>
+        <p class="text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+          The subway affects every New Yorker — but not equally. The same system failure lands
+          differently depending on who you are, where you're going, and how much flexibility you have.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+          <div class="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center mb-5">
+            <span class="material-symbols-outlined text-orange-500 text-xl" style="font-variation-settings:'FILL' 1">accessible</span>
+          </div>
+          <h3 class="font-bold text-primary text-lg mb-3">Accessibility Riders Bear the Most Risk</h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed">
+            For wheelchair users and people with mobility aids, a broken elevator isn't a minor
+            setback — it's an impassable barrier. They can't use the stairs as a backup.
+            Every unplanned outage forces a reroute through stations they may never have
+            checked. Trakkr gives them advance signal so they can choose their route confidently.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+          <div class="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center mb-5">
+            <span class="material-symbols-outlined text-blue-600 text-xl" style="font-variation-settings:'FILL' 1">nights_stay</span>
+          </div>
+          <h3 class="font-bold text-primary text-lg mb-3">Night-Shift Workers Ride Blind</h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed">
+            Nurses, delivery workers, cleaners, and essential workers who commute late at night
+            navigate stations with less foot traffic, fewer staff, and no apps designed for them.
+            They deserve the same safety intelligence as anyone planning a morning commute.
+            Crime risk doesn't follow a 9-to-5 schedule — neither should your data.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+          <div class="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center mb-5">
+            <span class="material-symbols-outlined text-purple-600 text-xl" style="font-variation-settings:'FILL' 1">family_restroom</span>
+          </div>
+          <h3 class="font-bold text-primary text-lg mb-3">New Yorkers With Less Flexibility</h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed">
+            Parents with young children, seniors with canes, and immigrants unfamiliar with
+            transit alternatives all share one thing: a broken elevator or a high-risk station
+            isn't just inconvenient — it can be unsafe. Knowing in advance isn't a luxury.
+            It's the minimum we should expect from a city that runs on public transit.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DATA SOURCES
+       ============================================================ -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div>
+          <span class="font-bold text-xs text-[#0039A6] tracking-widest uppercase block mb-4">The Foundation</span>
+          <h2 class="text-[40px] font-black text-primary leading-tight mb-5">Built on open data,<br/>not assumptions.</h2>
+          <p class="text-on-surface-variant leading-relaxed mb-6">
+            Every prediction TrakkRecord™ makes is rooted in public, verifiable data — not
+            surveys, not crowdsourced reports, not sentiment. Real incident records.
+            Real maintenance logs. Real ridership counts.
+          </p>
+          <p class="text-on-surface-variant leading-relaxed">
+            We don't invent risk scores. We read the pattern that already exists in the data
+            and surface it in plain language before it becomes a problem for you.
+          </p>
+        </div>
+        <div class="space-y-4">
+          <div class="bg-slate-50 border-l-4 border-[#0039A6] rounded-2xl p-6 flex gap-5 items-start">
+            <div class="w-11 h-11 bg-[#0039A6]/10 rounded-xl flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[#0039A6]" style="font-variation-settings:'FILL' 1">train</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-primary mb-1">MTA Open Data</h4>
+              <p class="text-on-surface-variant text-sm leading-relaxed">10 years of elevator and escalator availability records — 689 equipment units across 180 stations. Monthly ridership data used to normalize crime risk by station traffic volume.</p>
+            </div>
+          </div>
+          <div class="bg-slate-50 border-l-4 border-orange-500 rounded-2xl p-6 flex gap-5 items-start">
+            <div class="w-11 h-11 bg-orange-100 rounded-xl flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-orange-500" style="font-variation-settings:'FILL' 1">security</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-primary mb-1">NYPD Transit Crime Open Data</h4>
+              <p class="text-on-surface-variant text-sm leading-relaxed">Station-level incident records from 2020 through Q1 2026, covering transit crime across Manhattan, Brooklyn, Bronx, and Queens. Weighted by offense severity, normalized against ridership.</p>
+            </div>
+          </div>
+          <div class="bg-slate-50 border-l-4 border-purple-500 rounded-2xl p-6 flex gap-5 items-start">
+            <div class="w-11 h-11 bg-purple-100 rounded-xl flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-purple-600" style="font-variation-settings:'FILL' 1">live_tv</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-primary mb-1">MTA Real-Time Feeds</h4>
+              <p class="text-on-surface-variant text-sm leading-relaxed">Live elevator outages, subway-line alerts, and upcoming planned work — pulled straight from the MTA's own feeds and shown alongside Trakkr's forecast so you see the full picture.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CORE VALUES
+       ============================================================ -->
+  <section class="py-20 px-6 bg-slate-50">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="font-bold text-xs text-[#0039A6] tracking-widest uppercase block mb-3">What We Stand For</span>
+        <h2 class="text-3xl sm:text-4xl md:text-[40px] font-black text-primary mb-4">Three principles. No exceptions.</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm text-center">
+          <div class="w-16 h-16 bg-[#0039A6]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-[#0039A6] text-3xl" style="font-variation-settings:'FILL' 1">visibility</span>
+          </div>
+          <h3 class="font-bold text-primary text-xl mb-3">Transparency</h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed">
+            Every Trakkr forecast is traceable. The data sources, the trade-offs, and the reasons
+            we landed on a particular verdict are all documented openly. We tell you not just
+            <em>what</em> the risk is, but <em>why</em> we think so.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm text-center">
+          <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-orange-500 text-3xl" style="font-variation-settings:'FILL' 1">verified</span>
+          </div>
+          <h3 class="font-bold text-primary text-xl mb-3">Heads-Ups Over Surprises</h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed">
+            We'd rather warn you about a risk that doesn't pan out than miss one that does.
+            A false alarm you can plan around costs you a few seconds. A missed warning can cost
+            you a stranded commute, a missed shift, or worse.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm text-center">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="material-symbols-outlined text-green-600 text-3xl" style="font-variation-settings:'FILL' 1">groups</span>
+          </div>
+          <h3 class="font-bold text-primary text-xl mb-3">Riders First</h3>
+          <p class="text-on-surface-variant text-sm leading-relaxed">
+            Trakkr is independent — no agency affiliation, no government funding, no advertising.
+            We answer to riders, not to the MTA. Our only job is to give you the clearest picture
+            of your commute possible.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       OUR COMMITMENT
+       ============================================================ -->
+  <section class="py-20 px-6 bg-[#001a5c]">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <span class="font-bold text-xs text-orange-400 tracking-widest uppercase block mb-4">Our Commitment</span>
+          <h2 class="text-[40px] font-black text-white leading-tight mb-6">
+            Free. Independent.<br/>Always for the rider.
+          </h2>
+          <p class="text-blue-200 leading-relaxed mb-5">
+            Trakkr will never charge individuals for access to safety information.
+            We believe that knowing whether your station is safe or your elevator is
+            likely to work is a basic expectation — not a premium feature.
+          </p>
+          <p class="text-blue-200 leading-relaxed mb-8">
+            We are not affiliated with the MTA, NYPD, or any city agency. We use
+            their public data — and we publish our methods so anyone can verify
+            or challenge our conclusions.
+          </p>
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-3">
+              <span class="w-5 h-5 rounded-full bg-green-400 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-white text-xs" style="font-variation-settings:'FILL' 1">check</span>
+              </span>
+              <span class="text-blue-100 text-sm">Free for all individual riders — no login, no subscription</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-5 h-5 rounded-full bg-green-400 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-white text-xs" style="font-variation-settings:'FILL' 1">check</span>
+              </span>
+              <span class="text-blue-100 text-sm">No user data collected or stored</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-5 h-5 rounded-full bg-green-400 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-white text-xs" style="font-variation-settings:'FILL' 1">check</span>
+              </span>
+              <span class="text-blue-100 text-sm">Source data is publicly available and linked</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-5 h-5 rounded-full bg-green-400 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-white text-xs" style="font-variation-settings:'FILL' 1">check</span>
+              </span>
+              <span class="text-blue-100 text-sm">Model methodology is documented and reproducible</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-sm">
+            <div class="text-3xl font-black text-orange-400 mb-1">371</div>
+            <div class="text-blue-200 text-xs uppercase tracking-widest font-bold">Stations covered</div>
+          </div>
+          <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-sm">
+            <div class="text-3xl font-black text-orange-400 mb-1">93%</div>
+            <div class="text-blue-200 text-xs uppercase tracking-widest font-bold">of hotspots caught early</div>
+          </div>
+          <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-sm">
+            <div class="text-3xl font-black text-orange-400 mb-1">96%</div>
+            <div class="text-blue-200 text-xs uppercase tracking-widest font-bold">of failures caught early</div>
+          </div>
+          <div class="bg-white/10 border border-white/10 rounded-3xl p-6 backdrop-blur-sm">
+            <div class="text-3xl font-black text-orange-400 mb-1">&lt; 1 sec</div>
+            <div class="text-blue-200 text-xs uppercase tracking-widest font-bold">From address to answer</div>
+          </div>
+          <div class="col-span-2 bg-orange-500/20 border border-orange-400/20 rounded-3xl p-6 backdrop-blur-sm">
+            <div class="text-white font-bold mb-1">Always free for riders</div>
+            <div class="text-blue-200 text-sm">Safety data shouldn't sit behind a paywall. It shouldn't sit buried in a government portal either.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WHAT'S NEXT
+       ============================================================ -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-14">
+        <span class="font-bold text-xs text-[#0039A6] tracking-widest uppercase block mb-3">The Road Ahead</span>
+        <h2 class="text-3xl sm:text-4xl md:text-[40px] font-black text-primary mb-4">Where Trakkr is headed.</h2>
+        <p class="text-on-surface-variant max-w-xl mx-auto">Trakkr is a proof of concept built for NYC. But the problem isn't unique to New York.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div class="bg-gradient-to-br from-blue-50 to-slate-50 rounded-3xl p-7 border border-blue-100">
+          <div class="w-11 h-11 bg-[#0039A6] rounded-2xl flex items-center justify-center mb-5">
+            <span class="material-symbols-outlined text-white text-lg" style="font-variation-settings:'FILL' 1">location_city</span>
+          </div>
+          <h4 class="font-bold text-primary mb-2">Full NYC Coverage</h4>
+          <p class="text-on-surface-variant text-sm leading-relaxed">Adding Staten Island Railway, PATH, and ADA lift data to complete the five-borough picture.</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-orange-50 to-slate-50 rounded-3xl p-7 border border-orange-100">
+          <div class="w-11 h-11 bg-orange-500 rounded-2xl flex items-center justify-center mb-5">
+            <span class="material-symbols-outlined text-white text-lg" style="font-variation-settings:'FILL' 1">notifications_active</span>
+          </div>
+          <h4 class="font-bold text-primary mb-2">Proactive Alerts</h4>
+          <p class="text-on-surface-variant text-sm leading-relaxed">Opt-in alerts when a station on your regular commute shifts from SAFE to CAUTION — before you leave the house.</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-green-50 to-slate-50 rounded-3xl p-7 border border-green-100">
+          <div class="w-11 h-11 bg-green-600 rounded-2xl flex items-center justify-center mb-5">
+            <span class="material-symbols-outlined text-white text-lg" style="font-variation-settings:'FILL' 1">travel_explore</span>
+          </div>
+          <h4 class="font-bold text-primary mb-2">Other Cities</h4>
+          <p class="text-on-surface-variant text-sm leading-relaxed">WMATA in DC, CTA in Chicago, BART in the Bay Area — any transit system with open crime and maintenance data is a candidate.</p>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-50 to-slate-50 rounded-3xl p-7 border border-purple-100">
+          <div class="w-11 h-11 bg-purple-600 rounded-2xl flex items-center justify-center mb-5">
+            <span class="material-symbols-outlined text-white text-lg" style="font-variation-settings:'FILL' 1">share</span>
+          </div>
+          <h4 class="font-bold text-primary mb-2">Open API</h4>
+          <p class="text-on-surface-variant text-sm leading-relaxed">A public API tier so developers, journalists, and researchers can embed TrakkRecord™ predictions in their own tools — with attribution.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DISCLAIMER
+       ============================================================ -->
+  <section class="py-10 px-6 bg-slate-50 border-t border-slate-100">
+    <div class="max-w-3xl mx-auto text-center">
+      <p class="text-xs text-on-surface-variant leading-relaxed">
+        TrakkRecord™ predictions are based on historical patterns and should inform — not replace — your own judgment.
+        Trakkr is an independent tool not affiliated with the MTA, NYPD, or any government agency.
+        Predictions do not guarantee future conditions.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="bg-white border-t-4 border-[#0039A6]">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div class="max-w-xs">
+        <div class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 mb-2">Trakkr</div>
+        <p class="text-sm text-slate-500 leading-relaxed mb-3">Powered by TrakkRecord™. Independent — not affiliated with MTA, NYPD, or NYC government.</p>
+        <p class="text-xs text-slate-400 italic mb-4">We are not the MTA. We are simply better informed about it.</p>
+        <a href="https://buymeacoffee.com/denniscomandante" target="_blank" rel="noopener"
+          class="inline-flex items-center gap-2 bg-[#FFDD00] text-slate-900 font-bold px-4 py-2 rounded-xl text-xs hover:bg-yellow-300 transition-colors">
+          ☕ Buy me a coffee
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-10">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Pages</div>
+          <ul class="space-y-2">
+            <li><a href="index.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Home</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">TrakkRecord™</a></li>
+            <li><a href="blog.html"        class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Blogs</a></li>
+            <li><a href="about.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Our Story</a></li>
+            <li><a href="faq.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Data</div>
+          <ul class="space-y-2">
+            <li><a href="https://data.ny.gov/browse?Dataset-Information_Agency=Metropolitan+Transportation+Authority" target="_blank" rel="noopener" class="block py-1.5 text-sm text-slate-600 hover:text-[#0039A6] transition-colors">MTA Open Data</a></li>
+            <li><a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243" target="_blank" rel="noopener" class="block py-1.5 text-sm text-slate-600 hover:text-[#0039A6] transition-colors">NYPD Transit Crime</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">How Trakkr Works</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Legal</div>
+          <ul class="space-y-2">
+            <li><a href="privacy.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Privacy Policy</a></li>
+            <li><a href="legal.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Legal</a></li>
+            <li><a href="accessibility.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-slate-100 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p class="text-xs text-slate-400">© 2026 Trakkr. TrakkRecord™ predictions are based on historical patterns and do not guarantee future conditions.</p>
+      <p class="text-xs text-slate-400">Built for the CUNY AI Innovation Hackathon 2026.</p>
+    </div>
+  </div>
+</footer>
+
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="denniscomandante" data-description="Support me on Buy me a coffee!" data-message="If my work's saved you time, a coffee keeps it going ☕" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+<a href="feedback.html" id="feedback-pill" aria-label="Send feedback"
+  class="fixed bottom-5 left-5 z-50 inline-flex items-center gap-2 bg-white border border-slate-200 shadow-lg hover:shadow-xl rounded-full pl-4 pr-5 py-3 text-sm font-bold text-[#0039A6] hover:bg-slate-50 transition-all active:scale-95">
+  <span class="material-symbols-outlined text-base">chat_bubble</span>
+  Feedback
+</a>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<title>Six Years of Subway Crime: What 99,000 Incidents Actually Tell Us — Trakkr</title>
+<meta name="description" content="Raw crime counts are misleading. Once you weight by severity and adjust for ridership, a different list of high-risk stations rises to the top."/>
+<meta name="theme-color" content="#0039A6"/>
+<link rel="canonical" href="blog-crime-data.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Trakkr"/>
+<meta property="og:title" content="Six Years of Subway Crime: What 99,000 Incidents Actually Tell Us — Trakkr"/>
+<meta property="og:description" content="Raw crime counts are misleading. Once you weight by severity and adjust for ridership, a different list of high-risk stations rises to the top."/>
+<meta property="og:url" content="blog-crime-data.html"/>
+<meta property="og:image" content="favicon.svg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Six Years of Subway Crime: What 99,000 Incidents Actually Tell Us — Trakkr"/>
+<meta name="twitter:description" content="Raw crime counts are misleading. Once you weight by severity and adjust for ridership, a different list of high-risk stations rises to the top."/>
+<meta name="twitter:image" content="favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Space+Grotesk:wght@600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }</style>
+<script>tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#002675","on-surface-variant":"#434653"},fontFamily:{"body-rt":["Inter"],"label-caps":["Space Grotesk"]}}}}</script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-body-rt overflow-x-hidden">
+
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 shrink-0">Trakkr</a>
+    <nav class="hidden md:flex items-center gap-1">
+      <a href="trakkrecord.html" class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">TrakkRecord™</a>
+      <a href="blog.html"        class="text-[#0039A6] font-bold bg-blue-50 rounded-lg px-3 py-1.5 text-sm">Blogs</a>
+      <a href="about.html"       class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Our Story</a>
+      <a href="faq.html"         class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">FAQ</a>
+    </nav>
+    <button type="button" id="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false"
+      class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
+      <span class="material-symbols-outlined" id="mobile-nav-icon">menu</span>
+    </button>
+    <a href="index.html#hero-search" class="bg-gradient-to-r from-[#0039A6] to-orange-500 text-white px-5 py-2 rounded-xl font-bold text-sm active:scale-95 transition-transform">Check a Station</a>
+  </div>
+</header>
+<!-- mobile-nav-injected -->
+<div id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full z-40 bg-white border-b border-slate-200 shadow-lg transform -translate-y-full opacity-0 invisible transition-[transform,opacity,visibility] duration-200">
+  <nav class="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-1">
+    <a href="trakkrecord.html" class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">TrakkRecord™</a>
+    <a href="blog.html"        class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Blogs</a>
+    <a href="about.html"       class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Our Story</a>
+    <a href="faq.html"         class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">FAQ</a>
+  </nav>
+</div>
+<style>
+  #mobile-nav.is-open { transform: translateY(0); opacity: 1; visibility: visible; }
+</style>
+<script>
+(function(){
+  const btn = document.getElementById('mobile-nav-toggle');
+  const drawer = document.getElementById('mobile-nav');
+  const icon = document.getElementById('mobile-nav-icon');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
+  });
+  // Close when a nav link is tapped
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    drawer.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    if (icon) icon.textContent = 'menu';
+  }));
+})();
+</script>
+
+<main class="pt-16">
+
+  <section class="bg-gradient-to-br from-[#0039A6] to-blue-800 py-24 px-6">
+    <div class="max-w-3xl mx-auto">
+      <a href="blog.html" class="inline-flex items-center gap-1.5 text-white/70 hover:text-white text-sm font-medium mb-8 transition-colors">
+        <span class="material-symbols-outlined text-base">arrow_back</span> Back to Blogs
+      </a>
+      <div class="inline-flex items-center gap-1.5 bg-white/20 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full mb-5">Data Science</div>
+      <h1 class="text-4xl md:text-5xl font-black text-white leading-tight mb-5">Six Years of Subway Crime: What 99,000 Incidents Actually Tell Us</h1>
+      <div class="flex items-center gap-3 text-white/70 text-sm">
+        <span class="font-medium text-white">Trakkr Research</span><span>·</span><span>Data Methodology</span><span>·</span><span>6 min read</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+
+      <div class="bg-blue-50 border border-blue-100 rounded-2xl p-5 mb-10 flex items-start gap-3">
+        <span class="material-symbols-outlined text-blue-500 shrink-0 mt-0.5" style="font-variation-settings:'FILL' 1">info</span>
+        <p class="text-sm text-blue-800 leading-relaxed"><strong>The headline:</strong> Trakkr's safety forecast catches roughly <strong>97 out of every 100</strong> stations that turn into safety hotspots — built from 99,462 publicly available NYPD records, weighted by how serious each incident was, and adjusted for how busy each station is.</p>
+      </div>
+
+      <div class="space-y-6 text-slate-700 leading-relaxed">
+
+        <p class="text-lg">Raw crime counts are the wrong number. They've always been the wrong number, and every transit crime map you've ever seen is built on them anyway.</p>
+
+        <p>Here's the problem: a station that processes 60,000 riders a day and logs 300 incidents a year isn't more dangerous than a station with 800 riders a day and 30 incidents. Divide by ridership and the picture inverts. The "safe" high-volume station stays safe. The low-volume station with a fifth of the incident count becomes the actual high-risk location.</p>
+
+        <h2 class="text-2xl font-black text-slate-900 mt-10 mb-4">How TrakkRecord™ builds the crime signal</h2>
+
+        <p>Starting from 99,462 NYPD transit incident records across 2020–Q1 2026, we applied three adjustments before a single model was trained:</p>
+
+        <div class="space-y-4 my-8">
+          <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex gap-4">
+            <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center shrink-0">
+              <span class="font-black text-red-600 text-sm">3×</span>
+            </div>
+            <div>
+              <div class="font-bold text-slate-900 text-sm mb-1">Felony weighting</div>
+              <p class="text-slate-500 text-sm">Robbery, assault, grand larceny — crimes that pose direct physical risk to riders. Counted at 3× in the weighted score.</p>
+            </div>
+          </div>
+          <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex gap-4">
+            <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center shrink-0">
+              <span class="font-black text-amber-600 text-sm">2×</span>
+            </div>
+            <div>
+              <div class="font-bold text-slate-900 text-sm mb-1">Misdemeanor weighting</div>
+              <p class="text-slate-500 text-sm">Petit larceny, harassment, criminal mischief. Meaningful but lower-severity than felonies — counted at 2×.</p>
+            </div>
+          </div>
+          <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex gap-4">
+            <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center shrink-0">
+              <span class="font-black text-green-600 text-sm">1×</span>
+            </div>
+            <div>
+              <div class="font-bold text-slate-900 text-sm mb-1">Violation weighting</div>
+              <p class="text-slate-500 text-sm">Fare evasion, disorderly conduct. Still part of the pattern but appropriately down-weighted against felony incidents.</p>
+            </div>
+          </div>
+        </div>
+
+        <p>After weighting, each station's monthly score is divided by average monthly ridership — sourced from MTA Hourly Ridership data (11 months averaged, 71.7% station-level match, remainder filled with borough averages). The result is a crime density score per 1,000 riders.</p>
+
+        <h2 class="text-2xl font-black text-slate-900 mt-10 mb-4">Direction matters as much as level</h2>
+
+        <p>A station that's currently a moderate-risk place but was a low-risk place three months ago is more concerning than one that's been steady-state risky for two years. Trakkr tracks not just where a station <em>stands</em>, but which direction it's <em>moving</em>.</p>
+
+        <p>By combining recent month-over-month changes with one-, three-, and six-month rolling averages, Trakkr sees both the current temperature and the trajectory. That's what separates it from a static crime map you'd find on any city portal.</p>
+
+        <h2 class="text-2xl font-black text-slate-900 mt-10 mb-4">A station is "in trouble" if it ranks top-5 in its own borough</h2>
+
+        <p>Trakkr flags a station as a hotspot if it lands in the <strong>top five most dangerous in its own borough</strong> for that month. The Bronx is compared to other Bronx stations. Manhattan to Manhattan. Each borough has very different baselines, and ranking them on one giant list would be misleading: Bronx stations would always look "safer" than they are because Manhattan's totals are bigger overall.</p>
+
+        <div class="bg-slate-900 rounded-2xl p-6 my-8">
+          <div class="text-xs font-bold text-orange-400 uppercase tracking-widest mb-4">Safety Forecast Performance (on 2025 records)</div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <div class="text-2xl font-black text-white">97 of 100</div>
+              <div class="text-slate-400 text-xs mt-0.5">hotspots caught early</div>
+            </div>
+            <div>
+              <div class="text-2xl font-black text-white">99,462</div>
+              <div class="text-slate-400 text-xs mt-0.5">records studied</div>
+            </div>
+            <div>
+              <div class="text-2xl font-black text-white">371</div>
+              <div class="text-slate-400 text-xs mt-0.5">stations covered</div>
+            </div>
+            <div>
+              <div class="text-2xl font-black text-white">30 day</div>
+              <div class="text-slate-400 text-xs mt-0.5">forecast window</div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-slate-500 italic">The point is to find the stations where the risk is genuinely elevated for the people who use them — not the ones that just look bad because they're crowded.</p>
+
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <a href="index.html#hero-search" class="inline-flex items-center gap-2 bg-[#0039A6] text-white font-bold px-7 py-3 rounded-xl text-sm hover:bg-[#002675] transition-colors">
+          Check your station <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </a>
+        <a href="blog.html" class="inline-flex items-center gap-2 text-slate-500 hover:text-[#0039A6] text-sm font-medium transition-colors">
+          <span class="material-symbols-outlined text-base">arrow_back</span> All articles
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-white border-t-4 border-[#0039A6] mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-10">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div class="max-w-xs">
+        <div class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 mb-2">Trakkr</div>
+        <p class="text-sm text-slate-500 leading-relaxed">Powered by TrakkRecord™. Independent — not affiliated with MTA, NYPD, or NYC government.</p>
+      </div>
+      <div class="flex flex-wrap gap-10">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Pages</div>
+          <ul class="space-y-2">
+            <li><a href="index.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Home</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">TrakkRecord™</a></li>
+            <li><a href="blog.html"        class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Blogs</a></li>
+            <li><a href="about.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Our Story</a></li>
+            <li><a href="faq.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Legal</div>
+          <ul class="space-y-2">
+            <li><a href="privacy.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Privacy Policy</a></li>
+            <li><a href="legal.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Legal</a></li>
+            <li><a href="accessibility.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Accessibility</a></li>
+            <li><a href="feedback.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-slate-100 mt-8 pt-6 text-center">
+      <p class="text-xs text-slate-400">© 2026 Trakkr · Built for the CUNY AI Innovation Hackathon 2026 · TrakkRecord™ predictions are based on historical patterns.</p>
+    </div>
+  </div>
+</footer>
+<a href="feedback.html" id="feedback-pill" aria-label="Send feedback"
+  class="fixed bottom-5 left-5 z-50 inline-flex items-center gap-2 bg-white border border-slate-200 shadow-lg hover:shadow-xl rounded-full pl-4 pr-5 py-3 text-sm font-bold text-[#0039A6] hover:bg-slate-50 transition-all active:scale-95">
+  <span class="material-symbols-outlined text-base">chat_bubble</span>
+  Feedback
+</a>
+
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="denniscomandante" data-description="Support me on Buy me a coffee!" data-message="If my work's saved you time, a coffee keeps it going ☕" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+</body>
+</html>

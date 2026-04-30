@@ -1,0 +1,15 @@
+[
+  {
+    "accuracy_pct":92.49,
+    "auc":0.982,
+    "precision_pct":47.5,
+    "recall_pct":94.7,
+    "f1_pct":63.3,
+    "threshold":0.22,
+    "cv_recall_mean":91.31,
+    "cv_recall_std":2.03,
+    "train_rows":12734,
+    "val_rows":3446,
+    "test_rows":4395
+  }
+]

@@ -1,0 +1,30 @@
+# Render.com Blueprint for the Trakkr backend.
+# See https://render.com/docs/blueprint-spec for full spec.
+#
+# Deploy:  render dashboard → New > Blueprint → point at this repo's root.
+# Render reads this file and provisions the web service automatically.
+
+services:
+  - type: web
+    name: trakkr-api
+    runtime: python
+    plan: starter   # bump to standard once traffic justifies it
+    region: ohio    # closest Render region to NYC users; adjust if needed
+    rootDir: .
+    # Use the slim API-only requirements file. The full ML stack (xgboost,
+    # scikit-learn, matplotlib, seaborn, openpyxl) is NOT needed at request
+    # time — the API only reads the pre-published forecast CSVs.
+    buildCommand: pip install -r requirements-api.txt
+    startCommand: uvicorn api.app:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: MAPBOX_TOKEN
+        sync: false   # set in Render dashboard, not committed
+      - key: MAPBOX_REFERER
+        sync: false   # must match an entry in the Mapbox token's allowed URLs;
+                      # e.g. "https://www.trakkr.app/"
+      - key: CORS_ORIGINS
+        sync: false   # e.g. "https://www.trakkr.app,https://trakkr.app"
+      - key: PYTHON_VERSION
+        value: "3.11"

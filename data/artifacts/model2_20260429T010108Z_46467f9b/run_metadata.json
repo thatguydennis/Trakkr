@@ -1,0 +1,28 @@
+{
+  "run_id": "model2_20260429T010108Z_46467f9b",
+  "pipeline_name": "model2",
+  "created_at": "2026-04-29T01:01:08+00:00",
+  "status": "success",
+  "target": "is_hotspot_top5_per_borough",
+  "target_recall": 0.95,
+  "dataset": "data/clean/crime_clean.csv",
+  "model_backend": "XGBoost",
+  "splits": {
+    "train_cutoff": 2024,
+    "val_year": 2024,
+    "test_start": 2025
+  },
+  "metrics": {
+    "accuracy_pct": 92.49,
+    "auc": 0.982,
+    "precision_pct": 47.5,
+    "recall_pct": 94.7,
+    "f1_pct": 63.3,
+    "threshold": 0.22,
+    "cv_recall_mean": 91.31,
+    "cv_recall_std": 2.03,
+    "train_rows": 12734,
+    "val_rows": 3446,
+    "test_rows": 4395
+  }
+}

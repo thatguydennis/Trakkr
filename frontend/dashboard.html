@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<title>Trakkr — Station Dashboard</title>
+<meta name="description" content="Your live Trakkr station report. See the safety outlook, elevator and escalator forecasts, and real-time MTA alerts at a glance."/>
+<meta name="theme-color" content="#0039A6"/>
+<link rel="canonical" href="dashboard.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Trakkr"/>
+<meta property="og:title" content="Station Report — Trakkr"/>
+<meta property="og:description" content="Your live Trakkr station report. See the safety outlook, elevator and escalator forecasts, and real-time MTA alerts at a glance."/>
+<meta property="og:url" content="dashboard.html"/>
+<meta property="og:image" content="favicon.svg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Station Report — Trakkr"/>
+<meta name="twitter:description" content="Your live Trakkr station report. See the safety outlook, elevator and escalator forecasts, and real-time MTA alerts at a glance."/>
+<meta name="twitter:image" content="favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Space+Grotesk:wght@600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/motion@11.18.1/dist/motion.js"></script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .bar-fill { transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+  /* map wrapper clips visually; actual Leaflet div must NOT have overflow:hidden */
+  #map-wrapper { border-radius: 16px; overflow: hidden; height: 280px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  #station-map { height: 100%; width: 100%; }
+  .leaflet-popup-content-wrapper { border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 13px; }
+  .map-pin-station { background:#0039A6;color:white;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;border:3px solid white;box-shadow:0 3px 12px rgba(0,57,166,0.4); }
+  .map-pin-nearby  { background:#64748b;color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);cursor:pointer; }
+  .map-pin-dest    { background:#FC6116;color:white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;border:3px solid white;box-shadow:0 3px 12px rgba(252,97,22,0.4); }
+  .leaflet-popup-close-button { font-size:18px !important; }
+</style>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#002675", "primary-container": "#0039a6",
+          "on-surface-variant": "#434653", "surface-container-low": "#f3f4f5",
+          "outline-variant": "#c4c5d5", "secondary-container": "#fc6116"
+        },
+        fontFamily: {
+          "display-lg": ["Inter"], "body-rt": ["Inter"],
+          "label-caps": ["Space Grotesk"], "headline-md": ["Inter"],
+          "data-point": ["Space Grotesk"]
+        },
+        fontSize: {
+          "display-lg": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
+          "label-caps": ["12px", { lineHeight: "1.0", fontWeight: "700" }],
+          "headline-md": ["24px", { lineHeight: "1.2", fontWeight: "700" }],
+          "data-point": ["20px", { lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "600" }]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-body-rt min-h-screen">
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 shrink-0">Trakkr</a>
+    <nav class="hidden md:flex items-center gap-1">
+      <a href="trakkrecord.html" class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">TrakkRecord™</a>
+      <a href="blog.html"        class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Blogs</a>
+      <a href="about.html"       class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Our Story</a>
+      <a href="faq.html"         class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">FAQ</a>
+    </nav>
+    <button type="button" id="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false"
+      class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
+      <span class="material-symbols-outlined" id="mobile-nav-icon">menu</span>
+    </button>
+    <a href="index.html" class="bg-gradient-to-r from-[#0039A6] to-orange-500 text-white px-5 py-2 rounded-xl font-bold text-sm active:scale-95 transition-transform">
+      New Search
+    </a>
+  </div>
+</header>
+<!-- mobile-nav-injected -->
+<div id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full z-40 bg-white border-b border-slate-200 shadow-lg transform -translate-y-full opacity-0 invisible transition-[transform,opacity,visibility] duration-200">
+  <nav class="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-1">
+    <a href="trakkrecord.html" class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">TrakkRecord™</a>
+    <a href="blog.html"        class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Blogs</a>
+    <a href="about.html"       class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Our Story</a>
+    <a href="faq.html"         class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">FAQ</a>
+  </nav>
+</div>
+<style>
+  #mobile-nav.is-open { transform: translateY(0); opacity: 1; visibility: visible; }
+</style>
+<script>
+(function(){
+  const btn = document.getElementById('mobile-nav-toggle');
+  const drawer = document.getElementById('mobile-nav');
+  const icon = document.getElementById('mobile-nav-icon');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
+  });
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    drawer.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    if (icon) icon.textContent = 'menu';
+  }));
+})();
+</script>
+
+<main class="pt-16">
+
+  <!-- Loading state -->
+  <div id="loading-state" class="min-h-screen flex flex-col items-center justify-center gap-4 text-slate-400">
+    <div class="w-10 h-10 border-4 border-[#0039A6] border-t-transparent rounded-full animate-spin"></div>
+    <p class="text-sm font-medium">TrakkRecord™ is analyzing your destination...</p>
+  </div>
+
+  <!-- Error state -->
+  <div id="error-state" class="hidden min-h-screen flex flex-col items-center justify-center gap-4 px-6 text-center">
+    <span class="material-symbols-outlined text-5xl text-red-400">error</span>
+    <h2 class="text-xl font-bold text-slate-700">Couldn't find that address</h2>
+    <p id="error-msg" class="text-slate-400 max-w-sm text-sm"></p>
+    <a href="index.html" class="mt-4 bg-[#0039A6] text-white px-6 py-3 rounded-xl font-bold text-sm">Try Another Address</a>
+  </div>
+
+  <!-- Dashboard (hidden until data loads) -->
+  <div id="dashboard" class="hidden">
+  <div class="lg:flex lg:min-h-[calc(100vh-64px)]">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         LEFT — Sticky Map Panel
+         ═══════════════════════════════════════════════════════════ -->
+    <div id="left-panel" class="lg:w-[40%] lg:shrink-0 lg:sticky lg:top-16 lg:h-[calc(100vh-64px)] bg-slate-900 flex flex-col">
+
+      <!-- Address context header -->
+      <div class="px-6 py-5 shrink-0 border-b border-white/10">
+        <div class="text-[10px] font-bold uppercase tracking-widest text-blue-300 mb-1">Analyzing destination</div>
+        <div id="dash-address" class="text-white font-black text-sm leading-snug mb-3"></div>
+        <a href="index.html" class="inline-flex items-center gap-1 text-xs text-blue-300 hover:text-white transition-colors font-semibold">
+          <span class="material-symbols-outlined text-sm">arrow_back</span> New search
+        </a>
+      </div>
+
+      <!-- Map fills remaining height -->
+      <div class="flex-1 relative min-h-[260px]">
+        <div id="map-wrapper" style="position:absolute;inset:0;border-radius:0;border:none;box-shadow:none;height:100%">
+          <div id="station-map" style="height:100%;width:100%"></div>
+        </div>
+        <!-- Map legend overlay -->
+        <div class="absolute top-3 right-3 z-[1000] bg-slate-900/80 backdrop-blur-sm rounded-xl px-3 py-2 text-[10px] text-slate-300 space-y-1 pointer-events-none">
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-[#0039A6] inline-block border border-white/30"></span> Nearest station</div>
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-slate-400 inline-block border border-white/20"></span> Other stations</div>
+          <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-orange-500 inline-block border border-white/30"></span> Your destination</div>
+        </div>
+      </div>
+
+      <!-- Station info footer -->
+      <div class="px-6 py-4 shrink-0 bg-slate-800 border-t border-white/10">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <div class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">Nearest Station</div>
+            <div id="dash-station-name" class="text-white font-black text-sm leading-snug truncate"></div>
+            <div id="dash-distance" class="text-slate-400 text-xs mt-0.5"></div>
+          </div>
+          <div id="left-status-badge" class="shrink-0 text-xs font-black px-3 py-1.5 rounded-full mt-1"></div>
+        </div>
+        <p class="text-slate-500 text-[10px] mt-3 leading-relaxed">Click any 🚇 pin to open that station's full report</p>
+      </div>
+
+    </div><!-- /left panel -->
+
+    <!-- ═══════════════════════════════════════════════════════════
+         RIGHT — Scrollable Insights Panel
+         ═══════════════════════════════════════════════════════════ -->
+    <div id="right-panel" class="flex-1 min-w-0 bg-slate-50">
+
+      <!-- ── The Verdict ─────────────────────────────────────────── -->
+      <section class="px-6 pt-8 pb-4">
+        <div id="verdict-card" class="rounded-3xl overflow-hidden border">
+
+          <!-- Header row: status + station -->
+          <div id="verdict-header" class="px-6 pt-6 pb-4">
+            <div class="flex flex-wrap items-start justify-between gap-4">
+              <div class="flex items-center gap-4">
+                <div id="verdict-emoji" class="text-5xl leading-none shrink-0"></div>
+                <div>
+                  <div class="text-[10px] font-bold uppercase tracking-widest opacity-50 mb-0.5">TrakkRecord™ Verdict</div>
+                  <div id="verdict-label" class="text-3xl font-black tracking-tight leading-none"></div>
+                  <div id="verdict-station" class="text-sm mt-1 opacity-70 font-medium"></div>
+                </div>
+              </div>
+              <!-- Icon legend -->
+              <div class="flex flex-col gap-1 text-[10px] font-medium opacity-60 shrink-0">
+                <span class="flex items-center gap-1.5">🔴 <span><strong>HIGH RISK</strong> — At least one warning is in the alert zone. Act on this.</span></span>
+                <span class="flex items-center gap-1.5">🟡 <span><strong>CAUTION</strong> — One or more signals trending above average. Stay informed.</span></span>
+                <span class="flex items-center gap-1.5">🟢 <span><strong>SAFE</strong> — Both signals within normal range. No action needed.</span></span>
+              </div>
+            </div>
+            <!-- Compound verdict sentence -->
+            <p id="verdict-summary" class="text-sm font-semibold leading-relaxed mt-4 opacity-90"></p>
+          </div>
+
+          <!-- Two model signal rows -->
+          <div id="verdict-signals" class="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x border-t" style="border-color:inherit;--tw-divide-opacity:0.15"></div>
+
+        </div>
+      </section>
+
+      <!-- ── What You Can Do ──────────────────────────────────── -->
+      <section class="px-6 pb-6">
+        <div id="action-plan-card" class="rounded-2xl p-5 border">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="material-symbols-outlined text-lg" style="font-variation-settings:'FILL' 1">checklist</span>
+            <h3 class="font-black text-sm">What You Can Do</h3>
+          </div>
+          <div id="action-plan-body" class="space-y-2"></div>
+        </div>
+      </section>
+
+      <!-- ── Subway Line Status ─────────────────────────────────── -->
+      <section class="px-6 pb-6">
+        <div class="bg-white rounded-3xl p-7 border border-slate-100 shadow-sm">
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-2">
+              <span id="lines-pulse" class="inline-block w-2 h-2 rounded-full bg-slate-300 animate-pulse"></span>
+              <span class="material-symbols-outlined text-slate-500 text-base" style="font-variation-settings:'FILL' 1">subway</span>
+              <h3 class="font-bold text-primary text-sm uppercase tracking-wider">Subway Line Status</h3>
+            </div>
+            <span class="text-[11px] text-slate-400" id="lines-updated"></span>
+          </div>
+          <div id="line-status-content">
+            <div class="flex items-center gap-3 py-2 text-slate-400 text-sm">
+              <div class="w-4 h-4 border-2 border-slate-300 border-t-[#0039A6] rounded-full animate-spin"></div>
+              Fetching live line data…
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Live MTA Status ──────────────────────────────────────── -->
+      <section class="px-6 pb-6">
+        <div class="bg-white rounded-3xl p-7 border border-slate-100 shadow-sm">
+          <div class="flex items-center justify-between mb-5">
+            <div class="flex items-center gap-2">
+              <span id="mta-pulse" class="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+              <span class="material-symbols-outlined text-slate-500 text-base" style="font-variation-settings:'FILL' 1">elevator</span>
+              <h3 class="font-bold text-primary text-sm uppercase tracking-wider">Elevator &amp; Escalator Status</h3>
+            </div>
+            <span class="text-[11px] text-slate-400" id="mta-updated"></span>
+          </div>
+          <div id="mta-live-content">
+            <div class="flex items-center gap-3 py-2 text-slate-400 text-sm">
+              <div class="w-4 h-4 border-2 border-slate-300 border-t-[#0039A6] rounded-full animate-spin"></div>
+              Fetching live MTA data…
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TrakkRecord™ Full Assessment ──────────────────────────── -->
+      <section class="px-6 pb-8">
+        <div class="bg-slate-900 rounded-3xl p-8">
+          <div class="flex flex-col sm:flex-row sm:items-start gap-5 mb-7">
+            <div class="shrink-0">
+              <div class="w-12 h-12 bg-orange-500/20 rounded-2xl flex items-center justify-center">
+                <span class="material-symbols-outlined text-orange-400 text-2xl" style="font-variation-settings:'FILL' 1">tips_and_updates</span>
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="text-xs font-bold uppercase tracking-widest text-orange-400 mb-1">TrakkRecord™ Full Assessment</div>
+              <h3 id="rec-headline" class="text-white font-black text-xl leading-snug"></h3>
+            </div>
+            <a href="index.html" class="shrink-0 inline-flex items-center gap-2 bg-white text-slate-900 px-4 py-2 rounded-xl font-bold text-sm hover:bg-slate-100 transition-colors">
+              <span class="material-symbols-outlined text-sm">search</span> New Search
+            </a>
+          </div>
+          <div id="rec-body" class="space-y-4 mb-5"></div>
+          <p class="text-[11px] text-slate-500 italic border-t border-slate-800 pt-4">Predictions based on historical patterns through Q1 2026. Always use your own judgment. TrakkRecord™ is not affiliated with MTA or NYPD.</p>
+        </div>
+      </section>
+
+      <!-- ── How to Read Your Report ──────────────────────────────── -->
+      <section class="px-6 pb-6">
+        <div class="bg-white rounded-3xl p-7 border border-slate-100 shadow-sm">
+
+          <div class="flex items-center gap-2 mb-6">
+            <span class="material-symbols-outlined text-[#0039A6] text-base" style="font-variation-settings:'FILL' 1">menu_book</span>
+            <h3 class="font-bold text-primary text-sm uppercase tracking-wider">How to Read Your Report</h3>
+          </div>
+
+          <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">The Three Levels</p>
+          <div class="space-y-4 mb-6">
+            <div class="flex items-start gap-3">
+              <span class="text-xl leading-none mt-0.5">🔴</span>
+              <div>
+                <div class="text-sm font-black text-red-700 mb-0.5">HIGH RISK — Act on this</div>
+                <p class="text-xs text-slate-500 leading-relaxed">At least one warning is in the alert zone. See which one is elevated and follow the steps in <em>What You Can Do</em> before your trip.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="text-xl leading-none mt-0.5">🟡</span>
+              <div>
+                <div class="text-sm font-black text-amber-700 mb-0.5">CAUTION — Stay informed</div>
+                <p class="text-xs text-slate-500 leading-relaxed">Something at this station is running above its borough's average, but not at alert level. No urgent action needed — worth re-checking before a high-stakes trip.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="text-xl leading-none mt-0.5">🟢</span>
+              <div>
+                <div class="text-sm font-black text-green-700 mb-0.5">SAFE — No action needed</div>
+                <p class="text-xs text-slate-500 leading-relaxed">Both signals are within normal range. Use this station with confidence. The data shows no elevated pattern in crime density or equipment failure risk.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-100 my-6"></div>
+
+          <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-3">Understanding Each Signal</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="material-symbols-outlined text-[#0039A6] text-[18px]" style="font-variation-settings:'FILL' 1">security</span>
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Crime Risk Signal</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed">The percentage shown is the model's confidence that this station ranks in the <strong>top 5 by crime density</strong> in its borough over the next 3 months — based on 99,000+ NYPD transit incidents weighted by offense severity and ridership. A HIGH RISK rating isn't a judgment of the neighborhood — it's a data pattern over six years.</p>
+            </div>
+            <div class="rounded-2xl bg-slate-50 border border-slate-100 p-4">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="material-symbols-outlined text-[#0039A6] text-[18px]" style="font-variation-settings:'FILL' 1">elevator</span>
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-500">Equipment Signal</span>
+              </div>
+              <p class="text-xs text-slate-600 leading-relaxed"><strong>URGENT</strong> = &gt;70% failure probability + entrapment history on record. <strong>MONITOR</strong> = 40–70%, trending above normal wear. <strong>LOW</strong> = all units within expected range. Based on 79,000+ MTA availability records across separate elevator and escalator models.</p>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-100 my-6"></div>
+
+          <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">How the Overall Verdict Is Set</p>
+          <p class="text-xs text-slate-500 leading-relaxed">The <strong>worse</strong> of the two signals always sets the top-level verdict. One <strong>HIGH RISK</strong> on either crime or equipment produces a HIGH RISK verdict — even if the other signal is SAFE. The compound summary sentence in the verdict card always explains which signal drove the rating and why.</p>
+
+        </div>
+      </section>
+
+      <div class="px-6 pb-8 text-center">
+        <p class="text-xs text-slate-400">Powered by <strong>TrakkRecord™</strong> — MTA Open Data + NYPD Transit Crime records through Q1 2026.</p>
+      </div>
+
+    </div><!-- /right panel -->
+  </div><!-- /split panel -->
+  </div><!-- /dashboard -->
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="bg-white border-t-4 border-[#0039A6]">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div class="max-w-xs">
+        <div class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 mb-2">Trakkr</div>
+        <p class="text-sm text-slate-500 leading-relaxed mb-3">Powered by TrakkRecord™. Independent — not affiliated with MTA, NYPD, or NYC government.</p>
+        <p class="text-xs text-slate-400 italic">We are not the MTA. We are simply better informed about it.</p>
+      </div>
+      <div class="flex flex-wrap gap-10">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Pages</div>
+          <ul class="space-y-2">
+            <li><a href="index.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Home</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">TrakkRecord™</a></li>
+            <li><a href="blog.html"        class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Blogs</a></li>
+            <li><a href="about.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Our Story</a></li>
+            <li><a href="faq.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Data</div>
+          <ul class="space-y-2">
+            <li><a href="https://data.ny.gov/browse?Dataset-Information_Agency=Metropolitan+Transportation+Authority" target="_blank" rel="noopener" class="block py-1.5 text-sm text-slate-600 hover:text-[#0039A6] transition-colors">MTA Open Data</a></li>
+            <li><a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243" target="_blank" rel="noopener" class="block py-1.5 text-sm text-slate-600 hover:text-[#0039A6] transition-colors">NYPD Transit Crime</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">How Trakkr Works</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Legal</div>
+          <ul class="space-y-2">
+            <li><a href="privacy.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Privacy Policy</a></li>
+            <li><a href="legal.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Legal</a></li>
+            <li><a href="accessibility.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Accessibility</a></li>
+            <li><a href="feedback.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-slate-100 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p class="text-xs text-slate-400">© 2026 Trakkr. TrakkRecord™ predictions are based on historical patterns and do not guarantee future conditions.</p>
+      <p class="text-xs text-slate-400">Built for the CUNY AI Innovation Hackathon 2026.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     DASHBOARD JS
+     ============================================================ -->
+<script>
+// API base URL. Override in production by setting `<meta name="trakkr-api">` in <head>
+// (the deploy step in DEPLOYMENT.md does this), or by setting `window.TRAKKR_API`.
+// Falls back to a localhost dev port for local development.
+const API = (() => {
+  if (typeof window !== 'undefined' && window.TRAKKR_API) return window.TRAKKR_API;
+  const m = document.querySelector('meta[name="trakkr-api"]');
+  if (m && m.content) return m.content.trim();
+  const host = window.location.hostname;
+  // Treat anything that isn't a public DNS hostname as local dev:
+  // localhost / 127.0.0.1 / bare IPv4 (LAN, Tailscale, hotspot) / .local mDNS.
+  const isLocalish =
+    host === 'localhost' ||
+    host === '127.0.0.1' ||
+    host === '' ||
+    /^\d+\.\d+\.\d+\.\d+$/.test(host) ||
+    host.endsWith('.local');
+  if (isLocalish) {
+    return `${window.location.protocol}//${host || 'localhost'}:8001`;
+  }
+  // Production default — operator should override via the meta tag.
+  return `https://api.${host.replace(/^www\./, '')}`;
+})();
+
+// Minimal HTML-escape for any string that originates from third-party feeds
+// (MTA ENE XML, GTFS-RT alerts, geocoder display names) before it gets
+// interpolated into innerHTML. Defense-in-depth — those feeds are unlikely
+// to inject markup, but we don't trust them implicitly.
+function escapeHtml(value) {
+  if (value === null || value === undefined) return '';
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+const SEV_COLOR = { URGENT: '#ef4444', MONITOR: '#f59e0b', LOW: '#22c55e' };
+const SEV_BG    = { URGENT: 'bg-red-50 text-red-700', MONITOR: 'bg-amber-50 text-amber-700', LOW: 'bg-green-50 text-green-700' };
+const STATUS_DISPLAY = { FLAG: 'HIGH RISK', WATCH: 'CAUTION', CLEAR: 'SAFE' };
+const STATUS_THEME = {
+  FLAG:  { bg: 'bg-red-50',    text: 'text-red-700',   border: 'border-red-100',   barBg: 'bg-red-500'   },
+  WATCH: { bg: 'bg-amber-50',  text: 'text-amber-700', border: 'border-amber-100', barBg: 'bg-amber-400' },
+  CLEAR: { bg: 'bg-green-50',  text: 'text-green-700', border: 'border-green-100', barBg: 'bg-green-500' },
+};
+
+let _map = null;
+
+function show(id)   { document.getElementById(id).classList.remove('hidden'); }
+function hide(id)   { document.getElementById(id).classList.add('hidden'); }
+function el(id)     { return document.getElementById(id); }
+function setText(id, val) { el(id).textContent = val; }
+
+// ---------------------------------------------------------------------------
+// Map — nearest station + nearby pins + destination
+// ---------------------------------------------------------------------------
+
+function stationPopupHTML(s, isNearest) {
+  const badge = isNearest
+    ? `<span style="background:#0039A6;color:white;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;display:inline-block;margin-bottom:6px">NEAREST</span>`
+    : `<span style="font-size:11px;color:#94a3b8">${s.distance_m}m away</span>`;
+  return `
+    <div style="font-family:Inter,sans-serif;min-width:190px;padding:2px 0">
+      ${badge}
+      <div style="font-weight:800;font-size:13px;color:#0f172a;margin-bottom:4px;line-height:1.3">${s.station_name}</div>
+      <a href="dashboard.html?station=${encodeURIComponent(s.station_name)}"
+         style="display:block;background:#0039A6;color:white;text-align:center;padding:7px 0;border-radius:9px;font-size:12px;font-weight:700;text-decoration:none;margin-top:8px">
+        View Station Report →
+      </a>
+    </div>`;
+}
+
+function initMap({ sLat, sLon, dLat, dLon, stationName, destDisplay, nearby = [], stationOnly = false }) {
+  if (_map) { _map.remove(); _map = null; }
+
+  _map = L.map('station-map', { zoomControl: true, attributionControl: true });
+
+  const MAPBOX_TOKEN = 'pk.eyJ1Ijoid29ya3NieWRlbm5pcyIsImEiOiJjbW9sbGpiamEwbjNsMzFva2k5bThnNGZzIn0.5R7qckf7x-puhqGa7xlgVw';
+  L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}@2x?access_token=' + MAPBOX_TOKEN, {
+    attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>',
+    tileSize: 512,
+    zoomOffset: -1,
+    maxZoom: 19,
+  }).addTo(_map);
+
+  const stationIcon = L.divIcon({
+    html: '<div class="map-pin-station">🚇</div>',
+    className: '', iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -22],
+  });
+  const nearbyIcon = L.divIcon({
+    html: '<div class="map-pin-nearby">🚇</div>',
+    className: '', iconSize: [28, 28], iconAnchor: [14, 14], popupAnchor: [0, -16],
+  });
+  const destIcon = L.divIcon({
+    html: '<div class="map-pin-dest">📍</div>',
+    className: '', iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -18],
+  });
+
+  const bounds = [];
+
+  // Nearest / primary station — always shown
+  L.marker([sLat, sLon], { icon: stationIcon })
+    .addTo(_map)
+    .bindPopup(stationPopupHTML({ station_name: stationName, distance_m: 0 }, true), { maxWidth: 240 });
+  bounds.push([sLat, sLon]);
+
+  // Other nearby stations
+  (nearby || []).forEach(s => {
+    const isNearest = Math.abs(s.lat - sLat) < 0.0002 && Math.abs(s.lon - sLon) < 0.0002;
+    if (isNearest) return; // already rendered above
+    L.marker([s.lat, s.lon], { icon: nearbyIcon })
+      .addTo(_map)
+      .bindPopup(stationPopupHTML(s, false), { maxWidth: 240 });
+    bounds.push([s.lat, s.lon]);
+  });
+
+  // Destination pin (address-mode only)
+  if (!stationOnly && dLat && dLon) {
+    const shortAddr = (destDisplay || '').split(',').slice(0, 2).join(',');
+    L.marker([dLat, dLon], { icon: destIcon })
+      .addTo(_map)
+      .bindPopup(`<div style="font-family:Inter,sans-serif"><strong>Your Destination</strong><br><span style="color:#64748b;font-size:12px">${shortAddr}</span></div>`, { maxWidth: 220 });
+    bounds.push([dLat, dLon]);
+  }
+
+  if (bounds.length === 1 || stationOnly) {
+    _map.setView([sLat, sLon], 15);
+  } else {
+    _map.fitBounds(L.latLngBounds(bounds), { padding: [48, 48], maxZoom: 16 });
+  }
+
+  setTimeout(() => _map && _map.invalidateSize(), 250);
+}
+
+// ---------------------------------------------------------------------------
+// Subway Line Status
+// ---------------------------------------------------------------------------
+
+const STATUS_META = {
+  NO_SERVICE:     { label: 'No Service',      bg: '#EF4444', text: '#fff', dot: 'bg-red-500' },
+  DELAYS:         { label: 'Delays',          bg: '#F59E0B', text: '#1e293b', dot: 'bg-amber-400' },
+  SERVICE_CHANGE: { label: 'Service Change',  bg: '#3B82F6', text: '#fff', dot: 'bg-blue-500' },
+  PLANNED_WORK:   { label: 'Planned Work',    bg: '#8B5CF6', text: '#fff', dot: 'bg-violet-500' },
+  GOOD_SERVICE:   { label: 'Good Service',    bg: '#22C55E', text: '#fff', dot: 'bg-green-500' },
+};
+
+async function loadLineStatus(stationLines) {
+  try {
+    const url = stationLines && stationLines.length
+      ? `${API}/v1/mta/line-status?lines=${encodeURIComponent(stationLines.join(','))}`
+      : `${API}/v1/mta/line-status`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    renderLineStatus(data, stationLines || []);
+  } catch(_) {
+    el('line-status-content').innerHTML = `<p class="text-slate-400 text-sm">Live line data unavailable.</p>`;
+  }
+}
+
+function renderLineStatus(data, stationLines) {
+  const now = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  if (el('lines-updated')) el('lines-updated').textContent = `Updated ${now}`;
+
+  const lines = data.lines || {};
+  const sum   = data.summary || {};
+
+  // Pulse color based on worst status
+  const pulseClass = sum.NO_SERVICE > 0 ? 'bg-red-500' :
+                     sum.DELAYS > 0     ? 'bg-amber-400' :
+                     sum.SERVICE_CHANGE > 0 ? 'bg-blue-500' : 'bg-green-400';
+  el('lines-pulse').className = `inline-block w-2 h-2 rounded-full ${pulseClass} animate-pulse`;
+
+  // Summary pills
+  const summaryPills = Object.entries(sum)
+    .filter(([,count]) => count > 0)
+    .map(([status, count]) => {
+      const m = STATUS_META[status] || {};
+      return `<span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full" style="background:${m.bg};color:${m.text}">${count} ${m.label}</span>`;
+    }).join('');
+
+  // Line badges — all lines, highlighted if they serve this station
+  const lineOrder = ["1","2","3","4","5","6","7","A","C","E","B","D","F","M","G","J","Z","L","N","Q","R","W","SI","GS","H"];
+  const stationSet = new Set(stationLines.map(l => l.toUpperCase()));
+
+  const badges = lineOrder.filter(l => lines[l]).map(l => {
+    const info  = lines[l];
+    const isStation = stationSet.has(l);
+    const m = STATUS_META[info.status] || STATUS_META.GOOD_SERVICE;
+
+    // Visual weight: station lines are full opacity; others dim slightly
+    const opacityCls = isStation ? '' : 'opacity-60';
+    // Scale up station lines
+    const scaleCls = isStation ? 'scale-110' : '';
+    // Status-driven glow / animation
+    let glowStyle = '';
+    if (info.status === 'NO_SERVICE')
+      glowStyle = `box-shadow:0 0 0 3px #EF4444,0 0 10px 2px #EF444466;`;
+    else if (info.status === 'DELAYS')
+      glowStyle = `box-shadow:0 0 0 2px #F59E0B,0 0 8px 1px #F59E0B55;`;
+    else if (info.status === 'SERVICE_CHANGE')
+      glowStyle = `box-shadow:0 0 0 2px #3B82F6;`;
+
+    // Strikethrough overlay for suspended lines
+    const strikethrough = info.status === 'NO_SERVICE'
+      ? `<span class="absolute inset-0 flex items-center justify-center pointer-events-none">
+           <span class="block w-[130%] h-[2px] bg-white/80 rotate-45 rounded"></span>
+         </span>`
+      : '';
+
+    // Pulsing ring for delays and no-service
+    const pulseRing = (info.status === 'DELAYS' || info.status === 'NO_SERVICE')
+      ? `<span class="absolute inset-[-3px] rounded-full animate-ping opacity-30" style="background:${m.bg}"></span>`
+      : '';
+
+    return `
+      <button
+        id="line-btn-${l}"
+        onclick="toggleLineAlert('${l}')"
+        title="${escapeHtml(info.top_alert)}"
+        class="relative flex items-center justify-center w-9 h-9 rounded-full font-black text-[11px] cursor-pointer transition-all duration-200 hover:scale-110 hover:opacity-100 ${opacityCls} ${scaleCls}"
+        style="background:${info.color};color:#fff;${glowStyle}">
+        ${pulseRing}
+        ${l}
+        ${strikethrough}
+        <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-white ${m.dot}"></span>
+      </button>`;
+  }).join('');
+
+  el('line-status-content').innerHTML = `
+    <div class="flex flex-wrap gap-1.5 mb-4">${summaryPills}</div>
+    <div class="flex flex-wrap gap-3 mb-5" id="line-badges-row">${badges}</div>
+    <div id="line-alert-detail"></div>
+    <p class="text-[10px] text-slate-400 mt-3">Tap a line to expand details · tap again to collapse · glow = active disruption</p>`;
+
+  animateLineBadges();
+  window._lineStatusData = lines;
+  window._activeLine = null;
+}
+
+function toggleLineAlert(line) {
+  // Collapse if clicking the already-open line
+  if (window._activeLine === line) {
+    window._activeLine = null;
+    _renderLineDetail(null);
+    _updateActiveBadge(null);
+    return;
+  }
+  window._activeLine = line;
+  _renderLineDetail(line);
+  _updateActiveBadge(line);
+}
+
+function _updateActiveBadge(activeLine) {
+  const data = window._lineStatusData || {};
+  document.querySelectorAll('[id^="line-btn-"]').forEach(btn => {
+    const l = btn.id.replace('line-btn-', '');
+    const info = data[l] || {};
+    const m = STATUS_META[info.status] || STATUS_META.GOOD_SERVICE;
+    const isActive = l === activeLine;
+
+    if (isActive) {
+      btn.style.outline = '3px solid white';
+      btn.style.outlineOffset = '2px';
+      btn.style.transform = 'scale(1.2)';
+      btn.style.zIndex = '10';
+    } else {
+      btn.style.outline = '';
+      btn.style.outlineOffset = '';
+      btn.style.transform = '';
+      btn.style.zIndex = '';
+    }
+  });
+}
+
+function _renderLineDetail(line) {
+  const detail = el('line-alert-detail');
+  if (!line) {
+    detail.innerHTML = '';
+    return;
+  }
+  const data = window._lineStatusData || {};
+  const info = data[line];
+  if (!info) return;
+  const m = STATUS_META[info.status] || STATUS_META.GOOD_SERVICE;
+  const alerts = (info.alerts || []).slice(0, 6);
+
+  detail.innerHTML = `
+    <div class="rounded-2xl border overflow-hidden" style="border-color:${info.color}33">
+      <div class="flex items-center justify-between px-4 py-3" style="background:${info.color}15">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-full font-black text-[12px] text-white shrink-0" style="background:${info.color}">${line}</span>
+          <div>
+            <div class="font-bold text-slate-800 text-sm">${m.label}</div>
+            <div class="text-[10px] text-slate-500">${info.alert_count} active alert${info.alert_count !== 1 ? 's' : ''}</div>
+          </div>
+        </div>
+        <button onclick="toggleLineAlert('${line}')" class="text-slate-400 hover:text-slate-700 text-xl leading-none font-light">&times;</button>
+      </div>
+      <div class="p-4 space-y-2 bg-white">
+        ${alerts.length
+          ? alerts.map(a => `
+              <p class="text-xs text-slate-600 leading-relaxed border-l-2 pl-3 py-0.5" style="border-color:${info.color}">${escapeHtml(a.header)}</p>
+            `).join('')
+          : '<p class="text-xs text-green-600 font-medium">Good service — no disruptions reported.</p>'
+        }
+      </div>
+    </div>`;
+  animateLineDetail();
+  detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ---------------------------------------------------------------------------
+// MTA Live Status
+// ---------------------------------------------------------------------------
+
+async function loadMtaStatus(stationName) {
+  try {
+    const res = await fetch(`${API}/v1/mta/elevator-status?station=${encodeURIComponent(stationName)}`);
+    if (!res.ok) throw new Error(res.status);
+    const data = await res.json();
+    renderMtaStatus(data, stationName);
+  } catch (_) {
+    el('mta-live-content').innerHTML = `
+      <p class="text-slate-400 text-sm">Live MTA data could not be retrieved. Check that the API is running.</p>`;
+    el('mta-pulse').className = 'inline-block w-2 h-2 rounded-full bg-slate-300';
+  }
+}
+
+function renderMtaStatus(data, stationName) {
+  const now = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  if (el('mta-updated')) el('mta-updated').textContent = `Updated ${now}`;
+
+  const outages  = data.outages  || [];
+  const upcoming = data.upcoming || [];
+  const total    = data.total_units || 0;
+  const active   = data.active || 0;
+  const ada      = data.ada_accessible;
+
+  el('mta-pulse').className = `inline-block w-2 h-2 rounded-full ${outages.length ? 'bg-amber-400 animate-pulse' : 'bg-green-400 animate-pulse'}`;
+
+  const adaBadge = total > 0
+    ? `<span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${ada ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+        <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">accessible</span>
+        ${ada ? 'ADA OK' : 'ADA IMPACTED'}
+      </span>`
+    : '';
+
+  const summaryLine = total > 0
+    ? `<div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="text-slate-600 text-xs">${active} of ${total} units operational</span>
+        ${adaBadge}
+      </div>`
+    : '';
+
+  function fmtDt(iso) {
+    if (!iso) return null;
+    try {
+      const d = new Date(iso);
+      return d.toLocaleString('en-US', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit', hour12:true });
+    } catch(_) { return iso; }
+  }
+  function fmtTime(iso) {
+    if (!iso) return null;
+    try {
+      return new Date(iso).toLocaleString('en-US', { hour:'numeric', minute:'2-digit', hour12:true });
+    } catch(_) { return iso; }
+  }
+  function fmtDate(iso) {
+    if (!iso) return null;
+    try {
+      return new Date(iso).toLocaleString('en-US', { weekday:'short', month:'short', day:'numeric' });
+    } catch(_) { return iso; }
+  }
+
+  function outageCard(o, isUpcoming) {
+    const type   = o.equipmenttype === 'EL' ? 'Elevator' : 'Escalator';
+    const icon   = o.equipmenttype === 'EL' ? 'elevator' : 'escalator';
+    const bg     = isUpcoming ? 'bg-blue-50 border-blue-100' : 'bg-amber-50 border-amber-100';
+    const hdr    = isUpcoming ? 'text-blue-900' : 'text-amber-900';
+    const iconCl = isUpcoming ? 'text-blue-400' : 'text-amber-500';
+    const adaPill = o.ADA
+      ? `<span class="text-[9px] font-bold bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full">ADA</span>`
+      : '';
+    const reasonBadge = o.reason
+      ? `<span class="text-[10px] text-slate-500 italic">${escapeHtml(o.reason)}</span>`
+      : '';
+
+    let timeLine = '';
+    if (isUpcoming && o.outage_start && o.outage_end) {
+      const startDate = fmtDate(o.outage_start);
+      const startTime = fmtTime(o.outage_start);
+      const endTime   = fmtTime(o.outage_end);
+      const dur       = o.duration_h ? `${o.duration_h}h` : '';
+      timeLine = `<div class="text-[11px] font-semibold text-blue-700 mt-1">
+        ${startDate} · ${startTime} – ${endTime}${dur ? ` <span class="text-blue-400 font-normal">(${dur})</span>` : ''}
+      </div>`;
+    } else if (!isUpcoming && o.outage_end) {
+      timeLine = `<div class="text-[11px] font-semibold text-amber-700 mt-1">Est. return: ${fmtDate(o.outage_end)}</div>`;
+    }
+
+    const alt = o.altroute
+      ? `<details class="mt-2">
+           <summary class="text-[11px] text-[#0039A6] cursor-pointer font-semibold">Alternative route ›</summary>
+           <p class="text-[11px] text-slate-500 mt-1 leading-relaxed">${escapeHtml(o.altroute)}</p>
+         </details>`
+      : '';
+    return `
+      <div class="flex items-start gap-3 p-3 ${bg} rounded-xl border">
+        <span class="material-symbols-outlined ${iconCl} shrink-0 text-lg mt-0.5" style="font-variation-settings:'FILL' 1">${icon}</span>
+        <div class="text-sm flex-1 min-w-0">
+          <div class="font-bold ${hdr} flex flex-wrap items-center gap-1.5">
+            ${escapeHtml(o.equipmentno)} — ${type} ${isUpcoming ? 'Planned' : 'Out of Service'}
+            ${adaPill}
+          </div>
+          <div class="text-slate-600 text-xs mt-0.5">${escapeHtml(o.serving)}</div>
+          <div class="flex items-center gap-2 mt-0.5">${reasonBadge}</div>
+          ${timeLine}
+          ${alt}
+        </div>
+      </div>`;
+  }
+
+  if (!outages.length && !upcoming.length) {
+    el('mta-live-content').innerHTML = `
+      ${summaryLine}
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-green-500 text-xl" style="font-variation-settings:'FILL' 1">check_circle</span>
+        <span class="text-slate-700 text-sm font-medium">All elevators and escalators are operational at <strong>${escapeHtml(stationName)}</strong> right now.</span>
+      </div>`;
+    return;
+  }
+
+  const upcomingSection = upcoming.length
+    ? `<div class="mt-3">
+         <div class="text-[10px] font-bold uppercase tracking-widest text-blue-500 mb-2">Planned (${upcoming.length})</div>
+         <div class="space-y-2">${upcoming.map(o => outageCard(o, true)).join('')}</div>
+       </div>`
+    : '';
+
+  el('mta-live-content').innerHTML = `
+    ${summaryLine}
+    ${outages.length ? `<div class="space-y-2">${outages.map(o => outageCard(o, false)).join('')}</div>` : ''}
+    ${upcomingSection}`;
+  animateMtaCards();
+}
+
+// ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
+// Render helpers — new user-centric model presentation
+// ---------------------------------------------------------------------------
+
+function _monthLabel(isoStr) {
+  const d = new Date(isoStr + 'T00:00:00');
+  return d.toLocaleString('en-US', { month: 'short', year: '2-digit' });
+}
+
+function renderVerdict(d) {
+  const s       = d.safety;
+  const status  = s.status;
+  const prob    = Math.round(s.avg_hotspot_probability * 100);
+  const equip   = d.equipment || [];
+  const urgent  = equip.filter(e => e.severity === 'URGENT').length;
+  const monitor = equip.filter(e => e.severity === 'MONITOR').length;
+  const low     = equip.filter(e => e.severity === 'LOW').length;
+  const total   = equip.length;
+  const borough = escapeHtml(d.borough);
+
+  // Derive equipment signal independently
+  const equipStatus = urgent > 0 ? 'FLAG' : monitor > 0 ? 'WATCH' : 'CLEAR';
+
+  const themes = {
+    FLAG:  { bg:'bg-red-50',   border:'border-red-200',   text:'text-red-800',   muted:'text-red-600',   divBg:'bg-red-50',   sigBorder:'border-red-100' },
+    WATCH: { bg:'bg-amber-50', border:'border-amber-200', text:'text-amber-900', muted:'text-amber-700', divBg:'bg-amber-50', sigBorder:'border-amber-100' },
+    CLEAR: { bg:'bg-green-50', border:'border-green-200', text:'text-green-800', muted:'text-green-700', divBg:'bg-green-50', sigBorder:'border-green-100' },
+  };
+  const t = themes[status] || themes.CLEAR;
+
+  // Compound summary — combine both models into one plain-English statement
+  const crimePhrase = {
+    FLAG:  `Crime model flags this station as a hotspot — ${prob}% probability of ranking in the top 5 most dangerous stations in ${borough} over the next 3 months`,
+    WATCH: `Trakkr's safety forecast puts the chance of becoming a hotspot at ${prob}% — above the ${borough} average but not at alert level yet`,
+    CLEAR: `Trakkr's safety forecast puts the chance of becoming a hotspot at ${prob}% — well within the safe range for ${borough}`,
+  };
+  const equipPhrase = {
+    FLAG:  `${urgent} elevator/escalator unit${urgent>1?'s':''} flagged URGENT, meaning a 70%+ probability of unscheduled failure or entrapment within 30 days`,
+    WATCH: `${monitor} unit${monitor>1?'s':''} on MONITOR status — elevated failure risk worth knowing before arrival`,
+    CLEAR: total > 0 ? `all ${total} tracked units in the LOW risk tier — no failure predicted in the next 30 days` : `no elevator or escalator equipment tracked at this station`,
+  };
+
+  const summary = {
+    FLAG_FLAG:   `Both signals are elevated: ${crimePhrase.FLAG}. Additionally, ${equipPhrase.FLAG}. This station warrants planning before you travel.`,
+    FLAG_WATCH:  `${crimePhrase.FLAG}. On infrastructure: ${equipPhrase.WATCH}. Crime is the primary concern here.`,
+    FLAG_CLEAR:  `${crimePhrase.FLAG}. Equipment is stable — ${equipPhrase.CLEAR}. Crime risk is the driver of this verdict.`,
+    WATCH_FLAG:  `${crimePhrase.WATCH}. However, ${equipPhrase.FLAG}. Equipment failure risk is the stronger signal here.`,
+    WATCH_WATCH: `Both signals are slightly elevated: ${crimePhrase.WATCH}, and ${equipPhrase.WATCH}. Neither alone would trigger an alert, but together they warrant awareness.`,
+    WATCH_CLEAR: `${crimePhrase.WATCH}. Equipment is stable — ${equipPhrase.CLEAR}. Stay informed but no immediate action needed.`,
+    CLEAR_FLAG:  `${crimePhrase.CLEAR}. However, ${equipPhrase.FLAG}. If you rely on elevator access, plan a backup route before you leave.`,
+    CLEAR_WATCH: `${crimePhrase.CLEAR}. Equipment has ${equipPhrase.WATCH}. Crime is low — keep an eye on infrastructure.`,
+    CLEAR_CLEAR: `${crimePhrase.CLEAR}. ${equipPhrase.CLEAR.charAt(0).toUpperCase() + equipPhrase.CLEAR.slice(1)}. This station is in good standing on both signals.`,
+  };
+  const key = `${status}_${equipStatus}`;
+
+  // Crime signal row
+  const crimeSignalStatus = status;
+  const crimeIcons = { FLAG:'🔴', WATCH:'🟡', CLEAR:'🟢' };
+  const equipIcons = { FLAG:'🔴', WATCH:'🟡', CLEAR:'🟢' };
+  const crimeSignalTheme = themes[crimeSignalStatus] || themes.CLEAR;
+  const equipSignalTheme = themes[equipStatus] || themes.CLEAR;
+
+  const crimeRow = `
+    <div class="p-5 ${crimeSignalTheme.divBg}">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg leading-none">${crimeIcons[crimeSignalStatus]}</span>
+        <span class="text-[10px] font-black uppercase tracking-widest ${crimeSignalTheme.muted}">Crime Risk Signal</span>
+        <span class="ml-auto text-[10px] font-black px-2 py-0.5 rounded-full ${crimeSignalStatus==='FLAG'?'bg-red-200 text-red-800':crimeSignalStatus==='WATCH'?'bg-amber-200 text-amber-900':'bg-green-200 text-green-800'}">${STATUS_DISPLAY[crimeSignalStatus]||crimeSignalStatus}</span>
+      </div>
+      <div class="text-2xl font-black ${crimeSignalTheme.text} leading-none mb-1">${prob}%</div>
+      <div class="text-xs ${crimeSignalTheme.muted} font-semibold mb-1">${crimeSignalStatus==='FLAG'?`This station is likely among the most crime-affected in ${borough}`:crimeSignalStatus==='WATCH'?`Crime activity is above average for ${borough}`:`Crime activity is low relative to ${borough}`}</div>
+      <p class="text-[11px] text-slate-500 leading-relaxed">${crimeSignalStatus==='FLAG'?`Incidents here — including felonies — occur more often than at nearly every other station nearby. If you have flexibility in your route, this is worth factoring into your decision.`:crimeSignalStatus==='WATCH'?`Not a reason to avoid the station, but worth staying alert on the platform and near exits. The pattern is elevated enough that TrakkRecord™ flags it for your awareness.`:`You're not in a high-risk station. Transit crime happens system-wide, but this station doesn't stand out in the data. No action needed based on this signal.`}</p>
+    </div>`;
+
+  const equipSummaryLine = urgent > 0
+    ? `<span class="text-2xl font-black ${equipSignalTheme.text} leading-none">${urgent} URGENT</span><span class="text-sm ${equipSignalTheme.muted} font-semibold ml-1">${urgent>1?'units':' unit'}</span>`
+    : monitor > 0
+    ? `<span class="text-2xl font-black ${equipSignalTheme.text} leading-none">${monitor} MONITOR</span><span class="text-sm ${equipSignalTheme.muted} font-semibold ml-1">${monitor>1?'units':' unit'}</span>`
+    : total > 0
+    ? `<span class="text-2xl font-black ${equipSignalTheme.text} leading-none">${total} LOW</span><span class="text-sm ${equipSignalTheme.muted} font-semibold ml-1">risk</span>`
+    : `<span class="text-lg font-black text-slate-400 leading-none">No data</span>`;
+
+  const equipRow = `
+    <div class="p-5 ${equipSignalTheme.divBg}">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg leading-none">${equipIcons[equipStatus]}</span>
+        <span class="text-[10px] font-black uppercase tracking-widest ${equipSignalTheme.muted}">Equipment Signal</span>
+        <span class="ml-auto text-[10px] font-black px-2 py-0.5 rounded-full ${equipStatus==='FLAG'?'bg-red-200 text-red-800':equipStatus==='WATCH'?'bg-amber-200 text-amber-900':'bg-green-200 text-green-800'}">${STATUS_DISPLAY[equipStatus]||equipStatus}</span>
+      </div>
+      <div class="flex items-baseline gap-1 mb-1">${equipSummaryLine}</div>
+      <div class="text-xs ${equipSignalTheme.muted} font-semibold mb-1">${total} unit${total!==1?'s':''} tracked · 30-day outlook</div>
+      <p class="text-[11px] text-slate-500 leading-relaxed">${equipStatus==='FLAG'?`At least one elevator or escalator here has a high chance of breaking down without warning — and these specific units have previously trapped riders inside, not just stopped. If you need elevator access to enter or exit this station, check live MTA status and have an alternative exit in mind before you leave.`:equipStatus==='WATCH'?`One or more units here are showing wear patterns above the normal range. They likely won't fail, but if elevator access is essential for your trip — especially for strollers or mobility devices — it's worth confirming live status before you go.`:`All tracked elevators and escalators here are in normal operating condition. Based on historical patterns, no unscheduled breakdowns are expected in the next 30 days. You can rely on elevator access at this station.`}</p>
+    </div>`;
+
+  // Apply to DOM
+  el('verdict-card').className = `rounded-3xl overflow-hidden border ${t.border}`;
+  el('verdict-header').className = `px-6 pt-6 pb-4 ${t.bg}`;
+  el('verdict-emoji').textContent = s.emoji;
+  el('verdict-label').className   = `text-3xl font-black tracking-tight leading-none ${t.text}`;
+  el('verdict-label').textContent = STATUS_DISPLAY[status] || status;
+  el('verdict-station').className = `text-sm mt-1 font-medium ${t.muted}`;
+  el('verdict-station').textContent = `${d.matched_station} · ${borough}`;
+  el('verdict-summary').className = `text-sm font-semibold leading-relaxed mt-4 ${t.text}`;
+  el('verdict-summary').textContent = summary[key] || summary['CLEAR_CLEAR'];
+  el('verdict-signals').innerHTML = crimeRow + equipRow;
+  el('verdict-signals').className = `grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x border-t ${t.border}`;
+}
+
+function renderCrimeIntel(d) {
+  const s      = d.safety;
+  const status = s.status;
+  const prob   = Math.round(s.avg_hotspot_probability * 100);
+  const months = s.forecast_months || [];
+
+  // Trend: compare first and last forecast month
+  const first = months[0]  ? Math.round(months[0].predicted_hotspot_prob * 100)  : prob;
+  const last  = months[months.length-1] ? Math.round(months[months.length-1].predicted_hotspot_prob * 100) : prob;
+  const trend = last - first;
+  const trendLabel = trend > 3 ? `↑ Rising (+${trend}pp over 90 days)` : trend < -3 ? `↓ Easing (${trend}pp over 90 days)` : '→ Stable over 90 days';
+  const trendColor = trend > 3 ? 'text-red-600' : trend < -3 ? 'text-green-600' : 'text-slate-500';
+
+  // Status pill
+  const pill = { FLAG:'bg-red-100 text-red-700', WATCH:'bg-amber-100 text-amber-700', CLEAR:'bg-green-100 text-green-700' };
+
+  // Insight sentence
+  const safeBorough = escapeHtml(d.borough);
+  const insight = {
+    FLAG:  `TrakkRecord™ predicts this station will rank among the <strong>top 5 highest-crime stations in ${safeBorough}</strong> for all 3 forecast months. The MTA app has no crime data at all — this insight exists only here.`,
+    WATCH: `Above the ${safeBorough} average but below the flagged tier. Worth watching — especially if the trend is rising.`,
+    CLEAR: `Consistently low risk per rider. Well within the safe range — no advisory needed.`,
+  };
+
+  el('crime-intel-body').innerHTML = `
+    <div class="flex items-end gap-4">
+      <div>
+        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Hotspot Probability</div>
+        <div class="text-4xl font-black text-slate-900 leading-none">${prob}<span class="text-xl text-slate-400">%</span></div>
+        <div class="text-xs font-bold mt-1 ${trendColor}">${trendLabel}</div>
+      </div>
+      <div class="flex-1">
+        <div class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1.5">Next 3 Months</div>
+        <div class="flex gap-1.5">
+          ${months.map(m => {
+            const p   = Math.round(m.predicted_hotspot_prob * 100);
+            const hot = m.predicted_hotspot_label === 1;
+            const bar = hot ? 'bg-red-400' : p >= 20 ? 'bg-amber-300' : 'bg-green-400';
+            return `<div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full rounded-sm" style="height:${Math.max(p, 4)}px;background:var(--tw-bg-opacity, 1)" class="${bar}">
+                <div class="w-full h-full rounded-sm ${bar}"></div>
+              </div>
+              <div class="text-[9px] text-slate-400 font-bold">${_monthLabel(m.month)}</div>
+              <div class="text-[10px] font-black ${hot ? 'text-red-600' : 'text-slate-500'}">${p}%</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+    <span class="inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-black ${pill[status] || pill.CLEAR}">${s.emoji} ${STATUS_DISPLAY[status]||status} — ${s.text}</span>
+    <p class="text-xs text-slate-500 leading-relaxed">${insight[status] || insight.CLEAR}</p>
+    <p class="text-[10px] text-slate-400 italic">99,462 NYPD transit incidents 2020–Q1 2026 · Weighted: Felony×3 Misdemeanor×2 Violation×1 · Ridership-normalized</p>`;
+}
+
+function renderEquipIntel(d) {
+  const equip   = d.equipment || [];
+  const urgent  = equip.filter(e => e.severity === 'URGENT');
+  const monitor = equip.filter(e => e.severity === 'MONITOR');
+  const low     = equip.filter(e => e.severity === 'LOW');
+  const body    = el('equip-intel-body');
+
+  if (!equip.length) {
+    body.innerHTML = `
+      <div class="flex items-center gap-3 py-2 text-slate-400">
+        <span class="material-symbols-outlined">info</span>
+        <p class="text-sm">No elevator or escalator equipment tracked at this station.</p>
+      </div>`;
+    return;
+  }
+
+  const adaImpacted = urgent.some(e => e.label && e.label.toLowerCase().includes('ada')) || urgent.length > 0;
+
+  const summaryRow = `
+    <div class="grid grid-cols-3 gap-2 text-center">
+      <div class="rounded-xl p-2.5 ${urgent.length  ? 'bg-red-50 border border-red-100'    : 'bg-slate-50'}">
+        <div class="text-2xl font-black ${urgent.length  ? 'text-red-600'    : 'text-slate-300'}">${urgent.length}</div>
+        <div class="text-[9px] font-black uppercase tracking-widest ${urgent.length ? 'text-red-500' : 'text-slate-400'}">URGENT</div>
+        <div class="text-[9px] text-slate-400 mt-0.5">&gt;70% fail risk</div>
+      </div>
+      <div class="rounded-xl p-2.5 ${monitor.length ? 'bg-amber-50 border border-amber-100' : 'bg-slate-50'}">
+        <div class="text-2xl font-black ${monitor.length ? 'text-amber-600'  : 'text-slate-300'}">${monitor.length}</div>
+        <div class="text-[9px] font-black uppercase tracking-widest ${monitor.length ? 'text-amber-500' : 'text-slate-400'}">MONITOR</div>
+        <div class="text-[9px] text-slate-400 mt-0.5">40–70% risk</div>
+      </div>
+      <div class="rounded-xl p-2.5 bg-slate-50">
+        <div class="text-2xl font-black text-green-600">${low.length}</div>
+        <div class="text-[9px] font-black uppercase tracking-widest text-green-500">LOW</div>
+        <div class="text-[9px] text-slate-400 mt-0.5">&lt;40% risk</div>
+      </div>
+    </div>`;
+
+  const urgentCards = urgent.map(eq => {
+    const pct = Math.round(eq.service_probability * 100);
+    return `
+      <div class="flex items-start gap-3 p-3 bg-red-50 rounded-xl border border-red-100">
+        <span class="material-symbols-outlined text-red-500 shrink-0 text-base mt-0.5" style="font-variation-settings:'FILL' 1">${eq.equipment_type === 'Elevator' ? 'elevator' : 'escalator'}</span>
+        <div class="flex-1 min-w-0">
+          <div class="text-xs font-black text-red-800">${escapeHtml(eq.equipment_code)} — ${escapeHtml(eq.equipment_type)} · <span class="font-black">${pct}% failure risk</span></div>
+          <div class="text-[10px] text-red-600 mt-0.5">Entrapment history. This unit can strand riders. Know your secondary exit.</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  const mta_contrast = urgent.length > 0
+    ? `<p class="text-[10px] text-slate-400 italic">The MTA app shows you when this elevator <em>breaks</em>. Trakkr tells you it's likely to break <em>before you arrive</em>.</p>`
+    : monitor.length > 0
+    ? `<p class="text-[10px] text-slate-400 italic">${monitor.length} unit${monitor.length>1?'s are':' is'} in the watch zone. Trakkr's 30-day forecast gives you the lead time the MTA app doesn't.</p>`
+    : `<p class="text-[10px] text-slate-400 italic">All equipment is in the LOW risk tier. No unscheduled outages predicted in the next 30 days.</p>`;
+
+  body.innerHTML = `${summaryRow}${urgentCards ? `<div class="space-y-2">${urgentCards}</div>` : ''}${mta_contrast}`;
+}
+
+function renderOutlook(d) {
+  const months = d.safety.forecast_months || [];
+  if (!months.length) { el('outlook-months').innerHTML = ''; return; }
+
+  const configs = {
+    FLAG:  { bg:'bg-red-500',    text:'text-white',       label:'text-red-700' },
+    WATCH: { bg:'bg-amber-400',  text:'text-slate-900',   label:'text-amber-700' },
+    CLEAR: { bg:'bg-green-400',  text:'text-white',       label:'text-green-700' },
+  };
+
+  el('outlook-months').innerHTML = months.map(m => {
+    const p    = Math.round(m.predicted_hotspot_prob * 100);
+    const hot  = m.predicted_hotspot_label === 1;
+    const key  = hot ? 'FLAG' : p >= 20 ? 'WATCH' : 'CLEAR';
+    const c    = configs[key];
+    const lbl  = hot ? 'Flagged' : p >= 20 ? 'Watch' : 'Clear';
+    const icon = hot ? 'warning' : p >= 20 ? 'visibility' : 'check_circle';
+    return `
+      <div class="rounded-2xl border ${hot ? 'border-red-200 bg-red-50' : p >= 20 ? 'border-amber-200 bg-amber-50' : 'border-green-200 bg-green-50'} p-4 flex flex-col items-center text-center gap-2">
+        <div class="text-[10px] font-black uppercase tracking-widest ${c.label}">${_monthLabel(m.month)}</div>
+        <span class="material-symbols-outlined text-2xl ${c.label}" style="font-variation-settings:'FILL' 1">${icon}</span>
+        <div class="text-2xl font-black ${c.label}">${p}%</div>
+        <span class="text-[10px] font-black px-2 py-0.5 rounded-full ${c.bg} ${c.text}">${lbl}</span>
+        <div class="text-[10px] text-slate-400 capitalize">${m.confidence_bucket?.replace('_',' ') || ''} confidence</div>
+      </div>`;
+  }).join('');
+
+  // Insight sentence
+  const worst = months.reduce((a,b) => a.predicted_hotspot_prob > b.predicted_hotspot_prob ? a : b);
+  const best  = months.reduce((a,b) => a.predicted_hotspot_prob < b.predicted_hotspot_prob ? a : b);
+  const worstPct = Math.round(worst.predicted_hotspot_prob * 100);
+  const bestPct  = Math.round(best.predicted_hotspot_prob * 100);
+  el('outlook-insight').textContent = worstPct === bestPct
+    ? `Risk is consistent across all three months at ${worstPct}%.`
+    : `Highest risk window: ${_monthLabel(worst.month)} at ${worstPct}%. Lowest: ${_monthLabel(best.month)} at ${bestPct}%. ${worstPct - bestPct > 10 ? 'Meaningful variation — timing matters if you have flexibility.' : 'Variation is modest.'}`;
+}
+
+function renderActionPlan(d) {
+  const status  = d.safety.status;
+  const equip   = d.equipment || [];
+  const urgent  = equip.filter(e => e.severity === 'URGENT').length;
+  const station = escapeHtml(d.matched_station);
+  const borough = escapeHtml(d.borough);
+
+  const plans = {
+    FLAG: {
+      border: 'border-red-200', bg: 'bg-red-50', icon: 'text-red-500', text: 'text-red-900', hdr: 'text-red-800',
+      actions: [
+        { icon:'schedule',      label:'Travel off-peak',        detail:`Crime density at ${station} peaks during rush hours. If you have scheduling flexibility, earlier or later trips carry lower risk.` },
+        { icon:'alt_route',     label:'Know your alternate',    detail:'Check if a parallel station on the same line is in a lower risk tier. A 2-block walk can change your risk profile significantly.' },
+        { icon:'elevator',      label:`Verify ADA access before you go`, detail: urgent > 0 ? `${urgent} URGENT-rated elevator${urgent>1?'s':''} at this station ${urgent>1?'have':'has'} a high probability of failure. If you rely on elevator access, call MTA (511) or check MTA Elevator Status before you leave.` : 'Equipment risk is lower, but always confirm ADA availability for mobility-dependent riders before traveling.' },
+      ]
+    },
+    WATCH: {
+      border: 'border-amber-200', bg: 'bg-amber-50', icon: 'text-amber-500', text: 'text-amber-900', hdr: 'text-amber-800',
+      actions: [
+        { icon:'visibility',    label:'Stay situationally aware', detail:`${station} is above average for ${borough}. Awareness, not avoidance — use well-lit, populated areas of the platform.` },
+        { icon:'update',        label:'Re-check before regular commutes', detail:'Caution stations can shift to high risk. Run a new Trakkr search monthly if this is part of your routine commute.' },
+        { icon:'elevator',      label:'Equipment is manageable', detail: urgent > 0 ? `${urgent} URGENT unit${urgent>1?'s':''} flagged — if elevator access is critical for your trip, plan a backup route.` : 'Equipment risk is in the normal range. No immediate reliability concern.' },
+      ]
+    },
+    CLEAR: {
+      border: 'border-green-200', bg: 'bg-green-50', icon: 'text-green-600', text: 'text-green-900', hdr: 'text-green-800',
+      actions: [
+        { icon:'check_circle',  label:'Use this station confidently', detail:`TrakkRecord™ finds no elevated crime pattern at ${station}. Crime density is low relative to ridership and low relative to other ${borough} stations.` },
+        { icon:'elevator',      label:urgent > 0 ? 'One equipment note' : 'Equipment looks reliable', detail: urgent > 0 ? `Even at safe stations, urgent equipment needs attention. ${urgent} unit${urgent>1?'s':''} here ${urgent>1?'have':'has'} elevated failure risk — check live status if elevator access matters for your trip.` : 'All tracked equipment is in the low risk tier. No disruptions predicted in the next 30 days.' },
+        { icon:'search',        label:'Compare other stations',      detail:'Thinking about a different route? Run a Trakkr search on any NYC address to compare crime and equipment risk side by side.' },
+      ]
+    }
+  };
+
+  const plan = plans[status] || plans.CLEAR;
+  el('action-plan-card').className = `rounded-2xl p-5 border ${plan.border} ${plan.bg}`;
+  el('action-plan-card').querySelector('h3').className  = `font-black text-sm ${plan.hdr}`;
+  el('action-plan-card').querySelector('.material-symbols-outlined').className = `material-symbols-outlined text-lg ${plan.icon}`;
+  el('action-plan-body').innerHTML = plan.actions.map(a => `
+    <div class="flex items-start gap-3 bg-white/70 rounded-xl p-3.5 border border-white">
+      <span class="material-symbols-outlined text-base shrink-0 mt-0.5 ${plan.icon}" style="font-variation-settings:'FILL' 1">${a.icon}</span>
+      <div>
+        <div class="text-xs font-black ${plan.hdr} mb-0.5">${a.label}</div>
+        <div class="text-xs ${plan.text} opacity-80 leading-relaxed">${a.detail}</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderAssessment(d) {
+  const s       = d.safety;
+  const status  = s.status;
+  const prob    = Math.round(s.avg_hotspot_probability * 100);
+  const station = escapeHtml(d.matched_station);
+  const borough = escapeHtml(d.borough);
+  const equip   = d.equipment || [];
+  const urgentN = equip.filter(e => e.severity === 'URGENT').length;
+  const monitN  = equip.filter(e => e.severity === 'MONITOR').length;
+  const totalN  = equip.length;
+
+  const equipLine = urgentN > 0
+    ? `${urgentN} elevator/escalator unit${urgentN > 1 ? 's are' : ' is'} flagged <strong class="text-white">URGENT</strong> — greater than 70% probability of unscheduled outage within 30 days, compounded by a history of entrapments.`
+    : monitN > 0
+    ? `${monitN} unit${monitN > 1 ? 's are' : ' is'} on <strong class="text-white">MONITOR</strong> status — elevated risk worth knowing if you rely on elevator access at this station.`
+    : totalN > 0
+    ? `All ${totalN} tracked equipment unit${totalN > 1 ? 's are' : ' is'} in the <strong class="text-white">LOW</strong> risk range. No significant service disruption predicted within 30 days.`
+    : `No elevator or escalator equipment is tracked at this station in our dataset.`;
+
+  const headlines = {
+    FLAG:  `${station} is high risk. TrakkRecord™ doesn't say that lightly.`,
+    WATCH: `${station} warrants caution. Here's the full picture.`,
+    CLEAR: `${station} checks out. TrakkRecord™ backs that up with numbers.`,
+  };
+
+  const paragraphs = {
+    FLAG: [
+      `Trakkr puts the chance of becoming a safety hotspot at <strong class="text-white">${prob}%</strong> over the next three months — placing ${station} among the five highest-risk-per-rider stations in ${borough}. That ranking is built from over 99,000 NYPD transit records, weighted by how serious each incident was (serious crimes count 3×, lesser ones 2×, minor ones 1×), then adjusted for how busy the station is. This isn't a judgment about the neighborhood. It's a six-year pattern Trakkr catches roughly 97 out of 100 times.`,
+      `On the equipment side: ${equipLine}${urgentN > 0 ? " An URGENT-rated elevator going down mid-trip isn't just inconvenient — it can strand a rider with a wheelchair or stroller. Know your secondary exit before you arrive." : ''}`,
+      `If your trip takes you through ${station}, go in informed. Avoid off-peak hours when you can. Check the MTA's live alerts before you leave — Trakkr tells you what the long-term pattern is, the MTA tells you what's broken right now. You want both.`,
+    ],
+    WATCH: [
+      `The chance of becoming a safety hotspot sits at <strong class="text-white">${prob}%</strong> — above the system-wide average but not at the high-risk level of 50%. Something in the recent pattern at ${station} is running a little elevated. Not alarming. But it's on Trakkr's radar for a reason.`,
+      `Equipment status: ${equipLine}`,
+      `No immediate reroute needed — just stay aware. If you pass through here regularly, check back as the forecast refreshes each month.`,
+    ],
+    CLEAR: [
+      `The chance of becoming a safety hotspot is <strong class="text-white">${prob}%</strong> — well within the safe range. Across ${borough}, ${station} ranks low for risk per rider. Six years of NYPD records show no meaningful spike in serious or minor incidents at this station relative to how many people pass through.`,
+      `Equipment status: ${equipLine}`,
+      `You're informed. Go. If anything changes — construction, a new pattern, a service update — just run another search.`,
+    ],
+  };
+
+  setText('rec-headline', headlines[status] || headlines.CLEAR);
+  el('rec-body').innerHTML = (paragraphs[status] || paragraphs.CLEAR)
+    .map(p => `<p class="text-slate-300 text-sm leading-relaxed">${p}</p>`)
+    .join('');
+}
+
+// ---------------------------------------------------------------------------
+// Dashboard load — supports ?address= (geocode) and ?station= (direct)
+// ---------------------------------------------------------------------------
+
+async function loadDashboard() {
+  const params  = new URLSearchParams(window.location.search);
+  const address = params.get('address');
+  const station = params.get('station');
+
+  if (!address && !station) {
+    hide('loading-state');
+    show('error-state');
+    setText('error-msg', 'No address provided. Please go back and enter a destination.');
+    return;
+  }
+
+  document.title = `Trakkr — ${station || address}`;
+
+  try {
+    let res;
+    if (station) {
+      res = await fetch(`${API}/v1/station?name=${encodeURIComponent(station)}`);
+    } else {
+      res = await fetch(`${API}/v1/lookup?address=${encodeURIComponent(address)}`);
+    }
+    hide('loading-state');
+
+    if (res.status === 404) {
+      show('error-state');
+      const err = await res.json();
+      setText('error-msg', err.detail || `Not found: "${station || address}"`);
+      return;
+    }
+    if (!res.ok) {
+      show('error-state');
+      setText('error-msg', 'TrakkRecord™ is unavailable. Make sure the API is running on port 8001.');
+      return;
+    }
+
+    const d = await res.json();
+    renderDashboard(d, address || station, !!station);
+
+  } catch (_) {
+    hide('loading-state');
+    show('error-state');
+    setText('error-msg', 'Cannot reach the Trakkr API. Run: uvicorn api.app:app --reload --port 8001');
+  }
+}
+
+function renderDashboard(d, rawInput, stationDirect = false) {
+  const s      = d.safety;
+  const status = s.status;
+
+  // Address banner
+  if (stationDirect) {
+    el('dash-address').innerHTML = `<span class="text-slate-400 font-normal text-sm">Station Report — </span>${escapeHtml(d.matched_station)}`;
+    setText('dash-station-name', d.borough || '');
+    setText('dash-distance', '');
+  } else {
+    setText('dash-address', d.address?.display_name?.split(',').slice(0, 3).join(', ') || rawInput);
+    setText('dash-station-name', d.matched_station);
+    setText('dash-distance', `${d.nearest_station_distance_m ?? '?'}m away`);
+  }
+
+  // Left panel status badge
+  const badgePalette = { FLAG: 'bg-red-500 text-white', WATCH: 'bg-amber-400 text-slate-900', CLEAR: 'bg-green-500 text-white' };
+  el('left-status-badge').className = `shrink-0 text-xs font-black px-3 py-1.5 rounded-full mt-1 ${badgePalette[status] || badgePalette.CLEAR}`;
+  el('left-status-badge').textContent = `${s.emoji} ${STATUS_DISPLAY[status] || status}`;
+
+  // Render sections
+  renderVerdict(d);
+  renderActionPlan(d);
+  renderAssessment(d);
+
+  // Reveal dashboard
+  show('dashboard');
+  animateDashboard();
+
+  // Map — build params depending on mode
+  const sLat = d.nearest_station_lat ?? d.station_lat;
+  const sLon = d.nearest_station_lon ?? d.station_lon;
+
+  if (sLat && sLon) {
+    setTimeout(() => initMap({
+      sLat,
+      sLon,
+      dLat: stationDirect ? null : d.address?.lat,
+      dLon: stationDirect ? null : d.address?.lon,
+      stationName: d.matched_station,
+      destDisplay: stationDirect ? '' : (d.address?.display_name || rawInput),
+      nearby: d.nearby_stations || [],
+    }), 250);
+  }
+
+  loadMtaStatus(d.matched_station);
+  loadLineStatus(d.lines || []);
+}
+
+// ── Motion animations ────────────────────────────────────────────────────────
+// Graceful fallback if CDN fails
+if (typeof Motion === 'undefined') window.Motion = { animate: () => {}, stagger: () => 0 };
+
+const _ease = [0.16, 1, 0.3, 1]; // spring-like ease
+
+function _mot(sel, keyframes, opts = {}) {
+  try {
+    const nodes = typeof sel === 'string'
+      ? Array.from(document.querySelectorAll(sel))
+      : Array.isArray(sel) ? sel : [sel];
+    if (!nodes.length) return;
+    Motion.animate(nodes, keyframes, { easing: _ease, ...opts });
+  } catch (_) {}
+}
+
+function animateDashboard() {
+  // Left panel slides in from the left
+  _mot('#left-panel', { x: [-22, 0], opacity: [0, 1] }, { duration: 0.5 });
+
+  // Right panel sections cascade down the page
+  _mot('#right-panel > section',
+    { y: [28, 0], opacity: [0, 1] },
+    { delay: Motion.stagger(0.07, { start: 0.06 }), duration: 0.5 }
+  );
+
+  // Verdict card breathes in with a scale
+  _mot('#verdict-card', { scale: [0.96, 1], opacity: [0, 1] }, { duration: 0.55, delay: 0.1 });
+
+  // Verdict emoji pops in
+  _mot('#verdict-emoji', { scale: [0.3, 1.2, 1], opacity: [0, 1] }, { duration: 0.6, delay: 0.2 });
+
+  // Verdict label and station slide up
+  _mot('#verdict-label, #verdict-station',
+    { y: [8, 0], opacity: [0, 1] },
+    { delay: Motion.stagger(0.07, { start: 0.28 }), duration: 0.4 }
+  );
+
+  // Two signal columns stagger in
+  _mot('#verdict-signals > div',
+    { y: [18, 0], opacity: [0, 1] },
+    { delay: Motion.stagger(0.12, { start: 0.35 }), duration: 0.45 }
+  );
+
+  // Action plan items slide in from left
+  _mot('#action-plan-body > div',
+    { x: [-12, 0], opacity: [0, 1] },
+    { delay: Motion.stagger(0.07, { start: 0.42 }), duration: 0.38 }
+  );
+
+  // Assessment paragraphs fade up
+  _mot('#rec-body > p, #rec-body > div',
+    { y: [12, 0], opacity: [0, 1] },
+    { delay: Motion.stagger(0.09, { start: 0.55 }), duration: 0.42 }
+  );
+
+  // Crime % counter
+  _animateCounter();
+}
+
+function _animateCounter() {
+  const numEl = document.querySelector('#verdict-signals .text-2xl.font-black');
+  if (!numEl) return;
+  const target = parseInt(numEl.textContent);
+  if (isNaN(target)) return;
+  let start = null;
+  const dur = 950;
+  const tick = ts => {
+    if (!start) start = ts;
+    const pct = Math.min((ts - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - pct, 3);
+    numEl.textContent = Math.round(eased * target) + '%';
+    if (pct < 1) requestAnimationFrame(tick);
+  };
+  setTimeout(() => requestAnimationFrame(tick), 380);
+}
+
+function animateLineBadges() {
+  setTimeout(() => _mot('#line-badges-row > button',
+    { scale: [0.55, 1], opacity: [0, 1] },
+    { delay: Motion.stagger(0.025, { start: 0 }), duration: 0.28 }
+  ), 40);
+}
+
+function animateMtaCards() {
+  setTimeout(() => {
+    const cards = Array.from(document.querySelectorAll('#mta-live-content .space-y-2 > div'));
+    if (cards.length) _mot(cards, { y: [12, 0], opacity: [0, 1] }, { delay: Motion.stagger(0.08), duration: 0.35 });
+  }, 50);
+}
+
+function animateLineDetail() {
+  _mot('#line-alert-detail > div', { scale: [0.96, 1], opacity: [0, 1], y: [6, 0] }, { duration: 0.24 });
+}
+
+// Header glides in on first paint
+document.addEventListener('DOMContentLoaded', () => {
+  _mot('header', { y: [-10, 0], opacity: [0, 1] }, { duration: 0.4 });
+});
+// ────────────────────────────────────────────────────────────────────────────
+
+loadDashboard();
+</script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="denniscomandante" data-description="Support me on Buy me a coffee!" data-message="If my work's saved you time, a coffee keeps it going ☕" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+<a href="feedback.html" id="feedback-pill" aria-label="Send feedback"
+  class="fixed bottom-5 left-5 z-50 inline-flex items-center gap-2 bg-white border border-slate-200 shadow-lg hover:shadow-xl rounded-full pl-4 pr-5 py-3 text-sm font-bold text-[#0039A6] hover:bg-slate-50 transition-all active:scale-95">
+  <span class="material-symbols-outlined text-base">chat_bubble</span>
+  Feedback
+</a>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "run_id": "clean_data_20260428T195009Z_3f768c4b",
+  "pipeline_name": "clean_data",
+  "created_at": "2026-04-28T19:50:09+00:00",
+  "status": "success",
+  "elevator_source": "elevator_escalator_availability_fresh.csv",
+  "raw_dir": "/Users/dennis.comandante/Claude Cowork/Projects/CUNY AI INNOVATION 2026/data/raw",
+  "clean_dir": "/Users/dennis.comandante/Claude Cowork/Projects/CUNY AI INNOVATION 2026/data/clean",
+  "row_counts": {
+    "ridership_clean.csv": 1776,
+    "crime_clean.csv": 91952,
+    "elevator_clean.csv": 79630
+  },
+  "date_ranges": {
+    "ridership_clean.csv": [
+      "2020-03-01",
+      "2025-01-09"
+    ],
+    "crime_clean.csv": [
+      "2020-01-01",
+      "2025-12-31"
+    ],
+    "elevator_clean.csv": [
+      "2015-01-01",
+      "2026-03-01"
+    ]
+  }
+}

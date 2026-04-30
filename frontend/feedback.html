@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<title>Feedback — Trakkr</title>
+<meta name="description" content="Got a bug, a feature idea, or a partnership inquiry? Send it through. Every message lands directly with the Trakkr team."/>
+<meta name="theme-color" content="#0039A6"/>
+<link rel="canonical" href="feedback.html"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Trakkr"/>
+<meta property="og:title" content="Feedback — Trakkr"/>
+<meta property="og:description" content="Got a bug, a feature idea, or a partnership inquiry? Send it through. Every message lands directly with the Trakkr team."/>
+<meta property="og:url" content="feedback.html"/>
+<meta property="og:image" content="favicon.svg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Feedback — Trakkr"/>
+<meta name="twitter:description" content="Got a bug, a feature idea, or a partnership inquiry? Send it through. Every message lands directly with the Trakkr team."/>
+<meta name="twitter:image" content="favicon.svg"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  html { scroll-behavior: smooth; }
+</style>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#002675", "on-surface-variant": "#434653",
+          "background": "#f8f9fa", "on-surface": "#191c1d"
+        },
+        fontFamily: {
+          "display-lg": ["Inter"], "body-rt": ["Inter"],
+          "label-caps": ["Space Grotesk"], "headline-md": ["Inter"], "data-point": ["Space Grotesk"]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-body-rt overflow-x-hidden">
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="index.html" class="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 shrink-0">Trakkr</a>
+    <nav class="hidden md:flex items-center gap-1">
+      <a href="trakkrecord.html" class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">TrakkRecord™</a>
+      <a href="blog.html"        class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Blogs</a>
+      <a href="about.html"       class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">Our Story</a>
+      <a href="faq.html"         class="text-slate-600 font-medium hover:text-[#0039A6] hover:bg-slate-100 rounded-lg transition-all px-3 py-1.5 text-sm">FAQ</a>
+    </nav>
+    <button type="button" id="mobile-nav-toggle" aria-label="Open menu" aria-controls="mobile-nav" aria-expanded="false"
+      class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-slate-700 hover:bg-slate-100 transition-colors">
+      <span class="material-symbols-outlined" id="mobile-nav-icon">menu</span>
+    </button>
+    <a href="index.html#hero-search" class="bg-gradient-to-r from-[#0039A6] to-orange-500 text-white px-5 py-2 rounded-xl font-bold text-sm active:scale-95 transition-transform">
+      Check a Station
+    </a>
+  </div>
+</header>
+<!-- mobile-nav-injected -->
+<div id="mobile-nav" class="md:hidden fixed top-16 left-0 w-full z-40 bg-white border-b border-slate-200 shadow-lg transform -translate-y-full opacity-0 invisible transition-[transform,opacity,visibility] duration-200">
+  <nav class="max-w-7xl mx-auto px-6 py-3 flex flex-col gap-1">
+    <a href="trakkrecord.html" class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">TrakkRecord™</a>
+    <a href="blog.html"        class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Blogs</a>
+    <a href="about.html"       class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">Our Story</a>
+    <a href="faq.html"         class="px-3 py-3 rounded-lg text-slate-700 font-medium hover:bg-slate-100 hover:text-[#0039A6]">FAQ</a>
+  </nav>
+</div>
+<style>
+  #mobile-nav.is-open { transform: translateY(0); opacity: 1; visibility: visible; }
+</style>
+<script>
+(function(){
+  const btn = document.getElementById('mobile-nav-toggle');
+  const drawer = document.getElementById('mobile-nav');
+  const icon = document.getElementById('mobile-nav-icon');
+  if (!btn || !drawer) return;
+  btn.addEventListener('click', () => {
+    const open = drawer.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (icon) icon.textContent = open ? 'close' : 'menu';
+  });
+  // Close when a nav link is tapped
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    drawer.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    if (icon) icon.textContent = 'menu';
+  }));
+})();
+</script>
+
+<main class="pt-16">
+
+  <!-- Hero -->
+  <section class="bg-[#001a5c] py-20 px-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/20 text-orange-300 rounded-full mb-6 border border-orange-400/20 text-xs font-bold uppercase tracking-widest">
+        <span class="material-symbols-outlined text-sm">chat_bubble</span> We're listening
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-[48px] font-black text-white leading-none mb-4">Send us your feedback</h1>
+      <p class="text-blue-200 text-lg leading-relaxed">
+        Found a bug? Got a feature idea? Interested in a partnership? Drop it below — every message
+        lands directly in our inbox. Trakkr is a living project, and rider feedback shapes what ships next.
+      </p>
+    </div>
+  </section>
+
+  <!-- Form -->
+  <section class="py-16 px-6">
+    <div class="max-w-2xl mx-auto">
+      <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-10">
+        <form id="feedback-form" class="space-y-5">
+          <input type="hidden" name="access_key" value="e73dde36-621e-420e-a04c-67f1d73a09a5">
+          <input type="hidden" name="subject" value="New Trakkr Feedback">
+          <input type="hidden" name="from_name" value="Trakkr Feedback Form">
+          <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off">
+
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Type of feedback</label>
+            <select name="feedback_type" required class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm bg-white focus:border-[#0039A6] focus:ring-1 focus:ring-[#0039A6] outline-none">
+              <option value="">Select one…</option>
+              <option value="Bug report">Bug report</option>
+              <option value="Feature request">Feature request</option>
+              <option value="Partnership inquiry">Partnership inquiry</option>
+              <option value="Press / Media">Press / Media</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Your message</label>
+            <textarea name="message" rows="6" required placeholder="What's on your mind?" class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm bg-white focus:border-[#0039A6] focus:ring-1 focus:ring-[#0039A6] outline-none resize-y"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Your name <span class="text-slate-400 font-normal normal-case">(optional)</span></label>
+            <input type="text" name="name" placeholder="Jane Doe" class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm bg-white focus:border-[#0039A6] focus:ring-1 focus:ring-[#0039A6] outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1.5">Email <span class="text-slate-400 font-normal normal-case">(optional — only if you'd like a reply)</span></label>
+            <input type="email" name="email" placeholder="you@example.com" class="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm bg-white focus:border-[#0039A6] focus:ring-1 focus:ring-[#0039A6] outline-none">
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" id="feedback-submit-btn" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#0039A6] to-orange-500 text-white font-bold px-8 py-3.5 rounded-xl text-sm hover:shadow-xl hover:shadow-[#0039A6]/20 transition-all active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed">
+              <span class="material-symbols-outlined text-base">send</span>
+              <span id="feedback-submit-label">Send feedback</span>
+            </button>
+          </div>
+
+          <div id="feedback-success" class="hidden bg-green-50 border border-green-100 text-green-800 rounded-xl px-4 py-3 text-sm">
+            ✓ Thanks — your message is on its way.
+          </div>
+          <div id="feedback-error" class="hidden bg-red-50 border border-red-100 text-red-800 rounded-xl px-4 py-3 text-sm">
+            Something went wrong sending that. Please try again in a moment.
+          </div>
+        </form>
+      </div>
+
+      <p class="text-xs text-slate-400 text-center mt-6 leading-relaxed">
+        Your message is sent securely via Web3Forms. We don't share or sell your information.
+        We don't use your message for anything other than improving Trakkr.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="bg-white border-t-4 border-[#0039A6]">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row justify-between gap-8">
+      <div class="max-w-xs">
+        <div class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-[#0039A6] to-orange-500 mb-2">Trakkr</div>
+        <p class="text-sm text-slate-500 leading-relaxed mb-3">Powered by TrakkRecord™. Independent — not affiliated with MTA, NYPD, or NYC government.</p>
+        <p class="text-xs text-slate-400 italic mb-4">We are not the MTA. We are simply better informed about it.</p>
+        <a href="https://buymeacoffee.com/denniscomandante" target="_blank" rel="noopener"
+          class="inline-flex items-center gap-2 bg-[#FFDD00] text-slate-900 font-bold px-4 py-2 rounded-xl text-xs hover:bg-yellow-300 transition-colors">
+          ☕ Buy me a coffee
+        </a>
+      </div>
+      <div class="flex flex-wrap gap-10">
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Pages</div>
+          <ul class="space-y-2">
+            <li><a href="index.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Home</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">TrakkRecord™</a></li>
+            <li><a href="blog.html"        class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Blogs</a></li>
+            <li><a href="about.html"       class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Our Story</a></li>
+            <li><a href="faq.html"         class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Data</div>
+          <ul class="space-y-2">
+            <li><a href="https://data.ny.gov/browse?Dataset-Information_Agency=Metropolitan+Transportation+Authority" target="_blank" rel="noopener" class="block py-1.5 text-sm text-slate-600 hover:text-[#0039A6] transition-colors">MTA Open Data</a></li>
+            <li><a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243" target="_blank" rel="noopener" class="block py-1.5 text-sm text-slate-600 hover:text-[#0039A6] transition-colors">NYPD Transit Crime</a></li>
+            <li><a href="trakkrecord.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">How Trakkr Works</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Legal</div>
+          <ul class="space-y-2">
+            <li><a href="privacy.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Privacy Policy</a></li>
+            <li><a href="legal.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Legal</a></li>
+            <li><a href="accessibility.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Accessibility</a></li>
+            <li><a href="feedback.html" class="text-sm text-slate-600 hover:text-[#0039A6] transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-slate-100 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-2">
+      <p class="text-xs text-slate-400">© 2026 Trakkr. TrakkRecord™ predictions are based on historical patterns and do not guarantee future conditions.</p>
+      <p class="text-xs text-slate-400">Built for the CUNY AI Innovation Hackathon 2026.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const form = document.getElementById('feedback-form');
+  if (!form) return;
+  const btn = document.getElementById('feedback-submit-btn');
+  const lbl = document.getElementById('feedback-submit-label');
+  const ok  = document.getElementById('feedback-success');
+  const err = document.getElementById('feedback-error');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    ok.classList.add('hidden'); err.classList.add('hidden');
+    lbl.textContent = 'Sending…'; btn.disabled = true;
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      const data = await res.json();
+      if (data && data.success) { form.reset(); ok.classList.remove('hidden'); }
+      else { err.classList.remove('hidden'); }
+    } catch (_) {
+      err.classList.remove('hidden');
+    } finally {
+      lbl.textContent = 'Send feedback'; btn.disabled = false;
+    }
+  });
+})();
+</script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="denniscomandante" data-description="Support me on Buy me a coffee!" data-message="If my work's saved you time, a coffee keeps it going ☕" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+</body>
+</html>
