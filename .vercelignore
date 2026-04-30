@@ -1,0 +1,20 @@
+# Vercel only deploys the static frontend. Block everything else from the
+# build context so Vercel can't accidentally auto-detect this as a Python
+# project and try to provision a serverless function.
+
+api/
+analysis/
+ops/
+data/
+docs/
+.venv/
+charts/
+*.py
+*.ipynb
+requirements*.txt
+render.yaml
+ARCHITECTURE.md
+DEPLOYMENT.md
+README.md
+*.sh
+.env*
