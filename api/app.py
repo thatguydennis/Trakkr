@@ -138,7 +138,30 @@ def _resolve_forecast_files() -> Dict[str, str]:
     m2 = os.path.join(resolved_dir, "forecast_model2_2027_2029.csv")
     if not os.path.exists(m1) or not os.path.exists(m2):
         raise HTTPException(status_code=500, detail="Forecast artifacts missing from latest run.")
-    return {"run_dir": resolved_dir, "model1_csv": m1, "model2_csv": m2}
+    return {"run_dir": resolved_dir, "model1_csv": m1, "model2_csv": m2, "run_id": run_id}
+
+
+# Cache parsed forecast DataFrames keyed by run_id. The CSVs are 1–2 MB each
+# and only change when a new pipeline run is published — re-parsing per request
+# was the dominant latency source on /v1/station and /v1/lookup.
+_FORECAST_CACHE: Dict[str, Any] = {"run_id": None}
+
+
+def _get_forecast_data() -> Dict[str, Any]:
+    """Return cached m1/m2 DataFrames, refreshing when the pointer's run_id changes."""
+    files  = _resolve_forecast_files()
+    run_id = files["run_id"]
+
+    if _FORECAST_CACHE.get("run_id") != run_id:
+        m1 = pd.read_csv(files["model1_csv"])
+        m2 = pd.read_csv(files["model2_csv"])
+        # Pre-compute the normalised name used for fuzzy matching in /v1/station
+        m2["_s_norm"] = m2["station_name"].str.upper().apply(
+            lambda s: re.sub(r"[.\-]+", " ", s).strip()
+        )
+        _FORECAST_CACHE.update({"run_id": run_id, "m1": m1, "m2": m2, "files": files})
+
+    return _FORECAST_CACHE
 
 
 def _elev_norm_key(s: str) -> str:
@@ -295,8 +318,7 @@ def latest_snapshot() -> Dict[str, Any]:
 @app.get("/v1/stations")
 def list_stations(q: Optional[str] = Query(default=None)) -> List[str]:
     """Return all station names from the crime forecast, optionally filtered by prefix."""
-    files = _resolve_forecast_files()
-    m2 = pd.read_csv(files["model2_csv"], usecols=["station_name"])
+    m2 = _get_forecast_data()["m2"]
     names = sorted(m2["station_name"].dropna().unique().tolist())
     if q:
         q_up = q.strip().upper()
@@ -349,11 +371,10 @@ def station_lookup(name: str = Query(..., min_length=1)) -> Dict[str, Any]:
     name_upper = name.strip().upper()
     # Normalize punctuation so "34 ST-PENN" matches "34 ST.-PENN STATION"
     name_norm = re.sub(r"[.\-]+", " ", name_upper).strip()
-    files = _resolve_forecast_files()
+    data = _get_forecast_data()
 
     # --- Model 2: crime hotspot ---
-    m2 = pd.read_csv(files["model2_csv"])
-    m2["_s_norm"] = m2["station_name"].str.upper().apply(lambda s: re.sub(r"[.\-]+", " ", s).strip())
+    m2 = data["m2"]
     # Word-boundary match so "42 ST" doesn't hit "242 ST"
     pattern = r"(?<!\w)" + re.escape(name_norm)
     m2_match = m2[m2["_s_norm"].str.contains(pattern, regex=True)]
@@ -377,7 +398,7 @@ def station_lookup(name: str = Query(..., min_length=1)) -> Dict[str, Any]:
     safety_status = _status_label(avg_hotspot_prob)
 
     # --- Model 1: elevator/escalator ---
-    m1 = pd.read_csv(files["model1_csv"])
+    m1 = data["m1"]
     eq_map = _load_equipment_map()
 
     crime_key = _crime_norm_key(matched_name)
@@ -461,8 +482,7 @@ def forecast_model1(
     limit: int = Query(default=200, ge=1, le=5000),
     min_probability: float = Query(default=0.0, ge=0.0, le=1.0),
 ) -> List[Dict[str, Any]]:
-    files = _resolve_forecast_files()
-    df = pd.read_csv(files["model1_csv"])
+    df = _get_forecast_data()["m1"]
     df = df[df["predicted_service_prob"] >= min_probability]
     return df.sort_values("predicted_service_prob", ascending=False).head(limit).to_dict(orient="records")
 
@@ -472,17 +492,17 @@ def forecast_model2(
     limit: int = Query(default=200, ge=1, le=5000),
     min_probability: float = Query(default=0.0, ge=0.0, le=1.0),
 ) -> List[Dict[str, Any]]:
-    files = _resolve_forecast_files()
-    df = pd.read_csv(files["model2_csv"])
+    df = _get_forecast_data()["m2"]
     df = df[df["predicted_hotspot_prob"] >= min_probability]
-    return df.sort_values("predicted_hotspot_prob", ascending=False).head(limit).to_dict(orient="records")
+    df = df.sort_values("predicted_hotspot_prob", ascending=False).head(limit)
+    public_cols = [c for c in df.columns if not c.startswith("_")]
+    return df[public_cols].to_dict(orient="records")
 
 
 @app.get("/v1/forecast/summary")
 def forecast_summary() -> Dict[str, Any]:
-    files = _resolve_forecast_files()
-    m1 = pd.read_csv(files["model1_csv"])
-    m2 = pd.read_csv(files["model2_csv"])
+    data = _get_forecast_data()
+    m1, m2 = data["m1"], data["m2"]
     return {
         "model1": {
             "rows": int(len(m1)),
